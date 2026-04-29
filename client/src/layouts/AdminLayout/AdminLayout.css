@@ -1,0 +1,46 @@
+:root {
+  --adm-sidebar-width: 260px;
+  --adm-header-height: 70px;
+  --adm-transition: all 0.3s ease;
+}
+
+.adm-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .adm-layout {
+  background: linear-gradient(135deg, #0f0f0f 0%, #171717 100%);
+}
+.adm-main {
+  flex: 1;
+  margin-left: var(--adm-sidebar-width);
+  transition: var(--adm-transition);
+}
+
+.adm-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.adm-sidebar-overlay.adm-active {
+  display: block;
+}
+
+@media (max-width: 992px) {
+  .adm-main {
+    margin-left: 0;
+  }
+
+  .adm-layout:not(.adm-sidebar-collapsed) .adm-sidebar {
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,151 @@
+.category-page {
+  padding: 20px;
+  min-height: 80vh;
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: var(--bg-tertiary);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px var(--card-shadow);
+}
+
+.category-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.category-header p {
+  font-size: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.category-movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.no-movies {
+  text-align: center;
+  padding: 80px 20px;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.no-movies p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.category-page-loading,
+.category-page-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  background: var(--bg-tertiary);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.loader {
+  border: 4px solid var(--border-color);
+  border-radius: 50%;
+  border-top: 4px solid var(--accent-color);
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.category-page-loading p {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.category-page-error h2 {
+  color: #f44336;
+  margin-bottom: 20px;
+}
+
+.error-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.retry-button,
+.home-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button {
+  background-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.home-button {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.retry-button:hover,
+.home-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .category-header {
+    padding: 30px 15px;
+  }
+
+  .category-header h1 {
+    font-size: 2rem;
+  }
+
+  .category-movies {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .retry-button,
+  .home-button {
+    width: 100%;
+  }
+}

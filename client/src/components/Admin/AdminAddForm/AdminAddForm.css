@@ -1,0 +1,515 @@
+.admin-add-form.glass-form {
+  background-color: var(--bg-secondary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px var(--card-shadow);
+  padding: 30px;
+}
+
+[data-theme="dark"] {
+  .admin-add-form.glass-form {
+    background-color: rgb(24, 24, 27);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px 10px;
+  margin: 0;
+}
+
+.form-group {
+  flex-grow: 1;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.form-col-12 {
+  width: 100%;
+  flex-basis: 100%;
+}
+
+.form-col-6 {
+  width: calc(50% - 10px);
+  flex-basis: calc(50% - 10px);
+}
+
+.form-col-4 {
+  width: calc(33.33% - 14px);
+  flex-basis: calc(33.33% - 14px);
+}
+
+.form-col-3 {
+  width: calc(25% - 15px);
+  flex-basis: calc(25% - 15px);
+}
+
+.admin-add-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgb(18, 18, 18);
+  letter-spacing: 0.3px;
+}
+
+[data-theme="dark"] {
+  .admin-add-form label {
+    color: white;
+  }
+}
+
+.admin-add-form .glass-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 8px;
+  color: rgb(18, 18, 18);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+  height: 46px;
+}
+
+[data-theme="dark"] {
+  .admin-add-form .glass-input {
+    background: rgb(39, 39, 42);
+    border: 1px solid rgb(63, 63, 70);
+    color: white;
+  }
+}
+
+.admin-add-form select.glass-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 35px;
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='currentColor' d='M6 8.825L2.6 5.4l.85-.85L6 7.1 8.55 4.55l.85.85z'/%3E%3C/svg%3E");
+}
+
+.admin-add-form .glass-input:focus {
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+[data-theme="dark"] {
+  .admin-add-form .glass-input:focus {
+    border-color: rgb(52, 152, 219);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+}
+
+.admin-add-form .glass-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: rgb(249, 250, 251);
+}
+
+[data-theme="dark"] {
+  .admin-add-form .glass-input:disabled {
+    background: rgb(63, 63, 70);
+  }
+}
+
+.admin-add-form textarea.glass-input {
+  min-height: 120px;
+  height: auto;
+  resize: vertical;
+}
+
+.description-text {
+  color: rgb(107, 114, 128);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+[data-theme="dark"] {
+  .description-text {
+    color: rgb(156, 163, 175);
+  }
+}
+
+.field-description {
+  color: rgb(107, 114, 128);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+[data-theme="dark"] {
+  .field-description {
+    color: rgb(156, 163, 175);
+  }
+}
+
+.admin-add-form .file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 46px;
+}
+
+.admin-add-form .glass-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.admin-add-form .file-input-text {
+  display: block;
+  padding: 12px 16px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 8px;
+  color: rgb(18, 18, 18);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 46px;
+  line-height: 22px;
+}
+
+[data-theme="dark"] {
+  .admin-add-form .file-input-text {
+    background: rgb(39, 39, 42);
+    border: 1px solid rgb(63, 63, 70);
+    color: white;
+  }
+}
+
+.file-preview {
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 4px;
+}
+
+[data-theme="dark"] {
+  .file-preview {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.file-preview img {
+  max-width: 150px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.admin-add-form .glass-checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  height: 46px;
+}
+
+.admin-add-form .checkbox-wrapper input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+[data-theme="dark"] {
+  .admin-add-form .checkbox-wrapper input[type="checkbox"] {
+    background: rgb(39, 39, 42);
+    border: 1px solid rgb(63, 63, 70);
+  }
+}
+
+.admin-add-form .checkbox-wrapper input[type="checkbox"]:checked::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e50914;
+  font-size: 14px;
+}
+
+.required {
+  color: rgba(231, 76, 60, 0.9);
+  margin-left: 4px;
+}
+
+.admin-add-form .error {
+  border-color: rgba(231, 76, 60, 0.5) !important;
+}
+
+.error-message {
+  color: rgba(231, 76, 60, 0.9);
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .admin-add-form.glass-form {
+    padding: 20px;
+  }
+
+  .form-col-6,
+  .form-col-4,
+  .form-col-3 {
+    width: 100%;
+    flex-basis: 100%;
+  }
+}
+
+.glass-input option {
+  background-color: rgb(255, 255, 255);
+  color: rgb(18, 18, 18);
+}
+
+[data-theme="dark"] {
+  .glass-input option {
+    background-color: rgb(39, 39, 42);
+    color: white;
+  }
+}
+
+.admin-form {
+  width: 100%;
+}
+
+.admin-form-fields-container {
+  width: 100%;
+}
+
+.admin-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
+}
+
+.admin-form-field {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.col-12 {
+  width: 100%;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-4 {
+  width: 33.333%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+.admin-form-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgb(18, 18, 18);
+}
+
+[data-theme="dark"] {
+  .admin-form-field label {
+    color: white;
+  }
+}
+
+.admin-form-field .required {
+  color: #e74c3c;
+  margin-left: 4px;
+}
+
+.admin-form-field input[type="text"],
+.admin-form-field input[type="email"],
+.admin-form-field input[type="password"],
+.admin-form-field input[type="number"],
+.admin-form-field input[type="date"],
+.admin-form-field textarea,
+.admin-form-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgb(209, 213, 219);
+  background: rgb(255, 255, 255);
+  color: rgb(18, 18, 18);
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+[data-theme="dark"] {
+  .admin-form-field input[type="text"],
+  .admin-form-field input[type="email"],
+  .admin-form-field input[type="password"],
+  .admin-form-field input[type="number"],
+  .admin-form-field input[type="date"],
+  .admin-form-field textarea,
+  .admin-form-field select {
+    background: rgb(39, 39, 42);
+    border: 1px solid rgb(63, 63, 70);
+    color: white;
+  }
+}
+
+.admin-form-field input:focus,
+.admin-form-field textarea:focus,
+.admin-form-field select:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+[data-theme="dark"] {
+  .admin-form-field input:focus,
+  .admin-form-field textarea:focus,
+  .admin-form-field select:focus {
+    border-color: rgb(52, 152, 219);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+  }
+}
+
+.admin-form-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-form-field select[multiple] {
+  min-height: 120px;
+}
+
+.admin-form-field .error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.admin-form-field.has-error input,
+.admin-form-field.has-error textarea,
+.admin-form-field.has-error select {
+  border-color: rgba(231, 76, 60, 0.5);
+}
+
+.admin-form-field .field-description {
+  font-size: 0.85rem;
+  color: rgb(107, 114, 128);
+  margin-top: 6px;
+}
+
+[data-theme="dark"] {
+  .admin-form-field .field-description {
+    color: rgb(156, 163, 175);
+  }
+}
+
+.file-input-container {
+  position: relative;
+}
+
+.file-input-container input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px dashed rgb(209, 213, 219);
+  background: rgb(249, 250, 251);
+  color: rgb(18, 18, 18);
+  font-size: 0.95rem;
+}
+
+[data-theme="dark"] {
+  .file-input-container input[type="file"] {
+    border-color: rgb(63, 63, 70);
+    background: rgb(63, 63, 70);
+    color: white;
+  }
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.file-preview img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-field label {
+  margin-bottom: 0;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.admin-form-submit-button {
+  padding: 10px 24px;
+  background: rgba(46, 204, 113, 0.2);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  color: rgb(46, 204, 113);
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-form-submit-button:hover {
+  background: rgba(46, 204, 113, 0.3);
+}
+
+.admin-form-cancel-button {
+  padding: 10px 24px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  color: rgb(231, 76, 60);
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-form-cancel-button:hover {
+  background: rgba(231, 76, 60, 0.2);
+}
+
+@media (max-width: 767px) {
+  .col-6,
+  .col-4,
+  .col-3 {
+    width: 100%;
+  }
+}

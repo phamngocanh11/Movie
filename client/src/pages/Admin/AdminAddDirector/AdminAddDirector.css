@@ -1,0 +1,42 @@
+.admin-add-director-container {
+  margin-top: 20px;
+}
+
+.admin-add-director-form {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.admin-add-director-form-title {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.admin-add-director-form-description {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+.admin-add-director-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .admin-add-director-form {
+    padding: 16px;
+  }
+
+  .admin-add-director-form-actions {
+    flex-direction: column;
+  }
+} 

@@ -1,0 +1,61 @@
+.manufacturer-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.manufacturer-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.manufacturer-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background: rgba(46, 204, 113, 0.2);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  color: rgb(46, 204, 113);
+}
+
+.status-inactive {
+  background: rgba(231, 76, 60, 0.2);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: rgb(231, 76, 60);
+}
+
+.manufacturer-country {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.manufacturer-country-flag {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+  .manufacturer-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .manufacturer-status {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+} 

@@ -1,0 +1,70 @@
+.admin-edit-director-container {
+  margin-top: 20px;
+}
+
+.admin-edit-director-form {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-edit-director-form-title {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.admin-edit-director-form-description {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.admin-edit-director-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-edit-director-loading,
+.admin-edit-director-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-edit-director-error p {
+  color: var(--text-error);
+  margin-bottom: 20px;
+}
+
+.admin-edit-director-error-actions {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .admin-edit-director-form {
+    padding: 15px;
+  }
+
+  .admin-edit-director-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-edit-director-error-actions {
+    flex-direction: column;
+  }
+} 

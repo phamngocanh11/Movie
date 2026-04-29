@@ -1,0 +1,102 @@
+.unauthorized-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 20px;
+}
+
+[data-theme="dark"] .unauthorized-container {
+  background: linear-gradient(135deg, #0f0f0f 0%, #171717 100%);
+}
+
+[data-theme="light"] .unauthorized-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.unauthorized-content {
+  background: var(--card-bg);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px var(--card-shadow);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  border-top: 3px solid #e50914;
+}
+
+[data-theme="dark"] .unauthorized-content {
+  background: rgba(18, 18, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .unauthorized-content {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+}
+
+.unauthorized-title {
+  color: #e50914;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.unauthorized-message {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.unauthorized-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.unauthorized-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: rgba(229, 9, 20, 0.9);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+}
+
+.unauthorized-button:hover {
+  background: #e50914;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4);
+}
+
+@media (max-width: 576px) {
+  .unauthorized-content {
+    padding: 30px 20px;
+  }
+
+  .unauthorized-title {
+    font-size: 1.8rem;
+  }
+
+  .unauthorized-message {
+    font-size: 1rem;
+  }
+
+  .unauthorized-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .unauthorized-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,41 @@
+.register-container {
+  width: 100%;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 15px;
+}
+
+.login-link a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.login-link a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  .register-form {
+    gap: 8px;
+  }
+}

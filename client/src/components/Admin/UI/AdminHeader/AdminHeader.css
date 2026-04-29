@@ -1,0 +1,251 @@
+.adm-header {
+  height: var(--adm-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  position: relative;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .adm-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.adm-header-glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+}
+
+[data-theme="dark"] .adm-header-glass {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.adm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.adm-menu-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .adm-menu-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: var(--text-primary);
+}
+
+.adm-menu-toggle:hover {
+  background: var(--hover-bg);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .adm-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.adm-menu-icon {
+  font-size: 24px;
+}
+
+.adm-search-container {
+  position: relative;
+}
+
+.adm-search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.adm-search-bar:focus-within {
+  background: var(--hover-bg);
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--accent-color);
+}
+
+.adm-search-icon {
+  color: var(--text-tertiary);
+  margin-right: 10px;
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+.adm-search-bar:focus-within .adm-search-icon {
+  color: var(--text-secondary);
+}
+
+.adm-search-input {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  outline: none;
+  width: 240px;
+  font-size: 0.95rem;
+}
+
+.adm-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s ease;
+}
+
+.adm-search-input:focus::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.adm-header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.adm-notification {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adm-notification:hover {
+  color: var(--text-primary);
+}
+
+.adm-notification-icon {
+  font-size: 22px;
+}
+
+.adm-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: linear-gradient(135deg, #f53d3d, #ff7676);
+  color: var(--text-primary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(255, 82, 82, 0.4);
+}
+
+.adm-user-profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 6px 10px 6px 6px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.adm-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.adm-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.adm-user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+[data-theme="dark"] .adm-user-name {
+  color: var(--text-primary);
+}
+
+.adm-user-role {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+[data-theme="dark"] .adm-user-role {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 992px) {
+  .adm-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .adm-search-bar {
+    display: none;
+  }
+
+  .adm-user-info {
+    display: none;
+  }
+
+  .adm-header {
+    padding: 0 1rem;
+  }
+
+  .adm-user-profile {
+    padding: 4px;
+  }
+
+  .adm-user-avatar {
+    margin-right: 0;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 576px) {
+  .adm-notification {
+    width: 36px;
+    height: 36px;
+  }
+
+  .adm-notification-icon {
+    font-size: 20px;
+  }
+}

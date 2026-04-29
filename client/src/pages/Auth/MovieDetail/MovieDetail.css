@@ -1,0 +1,116 @@
+.movie-detail-container {
+  width: 100%;
+}
+
+.movie-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.movie-actions {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.related-movies {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.loading-skeleton {
+  width: 100%;
+}
+
+.skeleton-banner {
+  width: 100%;
+  height: 75vh;
+  background: rgba(32, 32, 32, 0.5);
+  backdrop-filter: blur(20px);
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-content {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skeleton-title,
+.skeleton-meta,
+.skeleton-desc {
+  background: rgba(32, 32, 32, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-title {
+  height: 40px;
+  width: 60%;
+}
+
+.skeleton-meta {
+  height: 20px;
+  width: 80%;
+}
+
+.skeleton-desc {
+  height: 120px;
+  width: 100%;
+}
+
+.movie-not-found {
+  max-width: 500px;
+  margin: 100px auto;
+  text-align: center;
+  padding: 40px;
+  background: rgba(18, 18, 20, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.movie-not-found h2 {
+  font-size: 24px;
+  color: #e50914;
+  margin-bottom: 16px;
+}
+
+.movie-not-found p {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 576px) {
+  .movie-content {
+    padding: 20px 15px;
+  }
+}

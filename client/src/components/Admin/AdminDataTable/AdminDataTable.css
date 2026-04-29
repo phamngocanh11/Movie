@@ -1,0 +1,589 @@
+.admin-datatable {
+  position: relative;
+  border-radius: 12px;
+  border: none;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.admin-datatable__glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.admin-datatable__container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.admin-datatable__responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.admin-datatable__responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.admin-datatable__responsive::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.admin-datatable__responsive::-webkit-scrollbar-thumb {
+  background: var(--text-tertiary);
+  border-radius: 3px;
+}
+
+[data-theme="dark"] .admin-datatable__responsive::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .admin-datatable__responsive::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="light"] .admin-datatable__responsive::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+[data-theme="light"] .admin-datatable__responsive::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+.admin-datatable__table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.admin-datatable__table thead th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: rgb(107, 114, 128);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 2px solid rgb(229, 231, 235);
+  white-space: nowrap;
+  background: rgb(249, 250, 251);
+}
+
+[data-theme="dark"] {
+  .admin-datatable__table thead th {
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 2px solid rgb(63, 63, 70);
+    background: rgb(24, 24, 27);
+  }
+}
+
+.admin-datatable__table thead th.sortable {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.admin-datatable__table thead th.sortable:hover {
+  background: var(--hover-bg);
+  transition: background-color 0.15s;
+}
+
+[data-theme="dark"] .admin-datatable__table thead th.sortable:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] .admin-datatable__table thead th.sortable:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.admin-datatable__sort-icon {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+[data-theme="dark"] .admin-datatable__sort-icon {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] .admin-datatable__sort-icon {
+  color: var(--text-secondary);
+}
+
+.admin-datatable__sort-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-datatable__sort-icon {
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+}
+
+.admin-datatable__table tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgb(229, 231, 235);
+  background: rgb(255, 255, 255);
+}
+
+[data-theme="dark"] {
+  .admin-datatable__table tbody tr {
+    border-bottom: 1px solid rgb(63, 63, 70);
+    background: rgb(24, 24, 27);
+  }
+}
+
+/* Zebra Stripes */
+.admin-datatable__table tbody tr:nth-child(even) {
+  background-color: rgb(249, 250, 251);
+}
+
+[data-theme="dark"] {
+  .admin-datatable__table tbody tr:nth-child(even) {
+    background-color: rgb(39, 39, 42);
+  }
+}
+
+.admin-datatable__table tbody tr:hover {
+  background-color: rgb(243, 244, 246);
+  transform: scale(1.001);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  .admin-datatable__table tbody tr:hover {
+    background-color: rgb(52, 52, 55);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.admin-datatable__table td {
+  padding: 16px 20px;
+  border-bottom: none;
+  font-size: 0.95rem;
+  color: rgb(18, 18, 18);
+  vertical-align: middle;
+}
+
+[data-theme="dark"] {
+  .admin-datatable__table td {
+    color: white;
+  }
+}
+
+.admin-datatable__table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-datatable__index-header {
+  width: 60px;
+  text-align: center !important;
+}
+
+.admin-datatable__index-cell {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .admin-datatable__index-cell {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.admin-datatable__actions-cell {
+  white-space: nowrap;
+}
+
+.admin-datatable__action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: rgb(107, 114, 128);
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] {
+  .admin-datatable__action-btn {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.admin-datatable__action-btn:last-child {
+  margin-right: 0;
+}
+
+.admin-datatable__view-btn:hover {
+  background: rgba(52, 152, 219, 0.1);
+  color: rgba(52, 152, 219, 1);
+  transform: translateY(-2px);
+}
+
+.admin-datatable__edit-btn:hover {
+  background: rgba(243, 156, 18, 0.1);
+  color: rgba(243, 156, 18, 1);
+  transform: translateY(-2px);
+}
+
+.admin-datatable__delete-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: rgba(231, 76, 60, 1);
+  transform: translateY(-2px);
+}
+
+.admin-datatable__ban-btn:hover {
+  background: rgba(255, 152, 0, 0.1);
+  color: rgba(255, 152, 0, 1);
+  transform: translateY(-2px);
+}
+
+.admin-datatable__unban-btn:hover {
+  background: rgba(76, 175, 80, 0.1);
+  color: rgba(76, 175, 80, 1);
+  transform: translateY(-2px);
+}
+
+.admin-datatable--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.admin-datatable__loading {
+  display: flex;
+  flex-direction: covar(--border-color);
+  border-radius: 50%;
+  border-top: 3px solid var(--text-secondary);
+  animation: spin 1s linear infinite;
+}
+
+[data-theme="dark"] .admin-datatable__loading-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light"] .admin-datatable__loading-spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top: 3px solid rgba(0, 0, 0, 0.6);
+}
+
+.admin-datatable__loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid rgba(255, 255, 255, 0.6);
+  animation: spin 1s linear infinite;
+}
+
+.admin-datatable__loading-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.admin-datatable--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.admin-datatable__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 30px;
+  max-width: 400px;
+}
+
+.admin-datatable__error-icon {
+  font-size: 40px;
+  color: rgba(231, 76, 60, 0.8);
+}
+
+.admin-datatable__error-message {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.admin-datatable__retry-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 12px;
+  transition: all 0.2s;
+}
+
+.admin-datatable__retry-button:hover {
+  background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .admin-datatable__retry-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .admin-datatable__retry-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .admin-datatable__retry-button {
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid #d1d5db;
+  color: #0f172a;
+}
+
+[data-theme="light"] .admin-datatable__retry-button:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.admin-datatable--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.admin-datatable__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 30px;
+  max-width: 400px;
+}
+
+.admin-datatable__empty-icon {
+  font-size: 48px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+[data-theme="dark"] .admin-datatable__empty-icon {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="light"] .admin-datatable__empty-icon {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.admin-datatable__empty-title {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.admin-datatable__empty-message {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.admin-datatable__empty-action {
+  margin-top: 20px;
+}
+
+.admin-datatable__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.admin-datatable__pagination-info {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.admin-datatable__pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-datatable__pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+[data-theme="dark"] .admin-datatable__pagination-btn {
+  background: var(--hover-bg);
+}
+
+[data-theme="dark"] .admin-datatable__pagination-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .admin-datatable__pagination-btn:hover:not(:disabled) {
+  background: #e2e8f0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .admin-datatable__pagination-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #6b7280;
+}
+
+.admin-datatable__pagination-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-datatable__pagination-btn.active {
+  background: var(--accent-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .admin-datatable__pagination-btn.active {
+  background: rgba(229, 9, 20, 0.9);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .admin-datatable__pagination-btn.active {
+  background: #e50914;
+  color: var(--text-primary);
+}
+
+.admin-datatable__pagination-ellipsis {
+  color: var(--text-secondary);
+  padding: 0 4px;
+}
+
+[data-theme="dark"] .admin-datatable__pagination-ellipsis {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] .admin-datatable__pagination-ellipsis {
+  color: #9ca3af;
+}
+
+.admin-datatable__pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-datatable__pagination-ellipsis {
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 4px;
+}
+
+@media (max-width: 767px) {
+  .admin-datatable__table {
+    min-width: 200%;
+    table-layout: fixed;
+  }
+
+  .admin-datatable__table thead th,
+  .admin-datatable__table tbody td {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .admin-datatable__action-btn {
+    width: 28px;
+    height: 28px;
+    margin-right: 4px;
+  }
+  
+  .admin-datatable__actions-cell {
+    width: 100px;
+  }
+
+  .admin-datatable__pagination {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .admin-datatable__pagination-info {
+    text-align: center;
+  }
+  
+  .admin-datatable__pagination-controls {
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .admin-datatable__pagination-btn {
+    min-width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .hide-sm {
+    display: none;
+  }
+
+  .admin-datatable__table thead th,
+  .admin-datatable__table tbody td {
+    padding: 12px 12px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .hide-md {
+    display: none;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

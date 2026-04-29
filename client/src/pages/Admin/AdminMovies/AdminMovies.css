@@ -1,0 +1,138 @@
+.admin-movies__title-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-movies__poster {
+  width: 40px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.admin-movies__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1 !important;
+}
+
+.admin-movies__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-movies__name {
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20ch;
+}
+
+.admin-movies__type {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.admin-movies__status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.admin-movies__status--released {
+  background-color: rgba(46, 213, 115, 0.1);
+  color: #2ed573;
+  border: 1px solid rgba(46, 213, 115, 0.2);
+}
+
+.admin-movies__status--upcoming {
+  background-color: rgba(54, 162, 235, 0.1);
+  color: #54a0ff;
+  border: 1px solid rgba(54, 162, 235, 0.2);
+}
+
+.admin-movies__status--cancelled {
+  background-color: rgba(255, 71, 87, 0.1);
+  color: #ff4757;
+  border: 1px solid rgba(255, 71, 87, 0.2);
+}
+
+.admin-movies__status--unknown {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-movies__quality {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-movies__quality--hd {
+  background-color: rgba(111, 30, 81, 0.15);
+  color: #e84393;
+  border: 1px solid rgba(232, 67, 147, 0.3);
+}
+
+.admin-movies__quality--fullhd {
+  background-color: rgba(116, 185, 255, 0.15);
+  color: #74b9ff;
+  border: 1px solid rgba(116, 185, 255, 0.3);
+}
+
+.admin-movies__quality--4k {
+  background-color: rgba(255, 159, 67, 0.15);
+  color: #ff9f43;
+  border: 1px solid rgba(255, 159, 67, 0.3);
+}
+
+.admin-movies__views {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.admin-movies__views::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .admin-movies__name {
+    max-width: 15ch;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-movies__poster {
+    width: 35px;
+    height: 50px;
+  }
+  
+  .admin-movies__name {
+    max-width: 12ch;
+  }
+}

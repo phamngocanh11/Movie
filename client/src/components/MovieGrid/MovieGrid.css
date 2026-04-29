@@ -1,0 +1,68 @@
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.movie-grid-item {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: movieGridItemFadeIn 0.5s ease forwards;
+}
+
+@keyframes movieGridItemFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-grid-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.movie-grid-empty {
+  padding: 50px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--card-bg);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 30px var(--card-shadow);
+  margin: 20px 0;
+}
+
+.movie-grid-empty:hover {
+  background: var(--hover-bg);
+  border-color: var(--border-color);
+}
+
+.grid-card {
+  height: 100%;
+}
+
+@media (max-width: 992px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+}

@@ -1,0 +1,251 @@
+.movie-banner {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.banner-background {
+  position: absolute;
+  inset: 0;
+  height: 120%;
+  background-size: cover;
+  background-position: center 25%;
+  filter: brightness(0.5);
+  border-radius: 12px;
+}
+
+.banner-background::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+.banner-content {
+  text-align: center;
+  padding: 0 20px;
+  max-width: 800px;
+  z-index: 2;
+  position: relative;
+}
+
+.movie-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  line-height: 1.2;
+}
+
+.movie-meta-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .meta-item {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .meta-item {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0;
+}
+
+.meta-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.meta-icon {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.rating-item {
+  background: rgba(229, 9, 20, 0.15);
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+.star-icon {
+  color: #ffc107;
+}
+
+.rating-value {
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffc107;
+}
+
+.rating-count {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.watch-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.btn-favorite {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-favorite:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.btn-favorite.active {
+  background: rgba(229, 9, 20, 0.2);
+  color: #e50914;
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+@media (max-width: 768px) {
+  .movie-title {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  .movie-meta-info {
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+
+  .meta-item {
+    font-size: 13px;
+    padding: 6px 12px;
+    gap: 6px;
+  }
+
+  .meta-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-title {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+  }
+
+  .movie-meta-info {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .meta-item {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .meta-icon {
+    font-size: 12px;
+  }
+
+  .rating-value {
+    font-size: 14px;
+  }
+
+  .rating-count {
+    font-size: 11px;
+  }
+
+  .button-group {
+    gap: 10px;
+  }
+
+  .btn-favorite {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+}
+
+.trailer-modal {
+  width: 90%;
+  max-width: 900px;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.no-trailer {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 576px) {
+  .trailer-modal {
+    width: 95%;
+  }
+}
+
+.disabled-button {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+}
+
+.disabled-button:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,35 @@
+.category-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(243, 156, 18, 0.2);
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  color: rgb(243, 156, 18);
+}
+
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgb(243, 156, 18);
+}
+
+@media (max-width: 767px) {
+  .category-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .category-badge {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+}

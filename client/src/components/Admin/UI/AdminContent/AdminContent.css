@@ -1,0 +1,25 @@
+.adm-content {
+  min-height: calc(100vh - var(--adm-header-height));
+  background: var(--bg-primary);
+}
+
+[data-theme="dark"] .adm-content {
+  background: transparent;
+}
+
+.adm-content-wrapper {
+  border-radius: 10px;
+  padding: 2rem;
+  min-height: calc(100vh - var(--adm-header-height) - 4rem);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .adm-content-wrapper {
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .adm-content-wrapper {
+    padding: 1rem;
+  }
+}
