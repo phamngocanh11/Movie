@@ -1,0 +1,110 @@
+.advanced-search {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px var(--card-shadow);
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.advanced-search__title {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.advanced-search__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.advanced-search__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.advanced-search__field label {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.advanced-search__field input,
+.advanced-search__field select {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.advanced-search__field input:focus,
+.advanced-search__field select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+}
+
+.advanced-search__field input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.advanced-search__actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.advanced-search__actions .btn {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.advanced-search__actions .btn-primary {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.advanced-search__actions .btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+}
+
+.advanced-search__actions .btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.advanced-search__actions .btn-secondary:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--text-tertiary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .advanced-search {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .advanced-search__title {
+    font-size: 1.5rem;
+  }
+
+  .advanced-search__actions {
+    flex-direction: column;
+  }
+}
