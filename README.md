@@ -1,41 +1,41 @@
 # 🎬 Movie Streaming Platform
 
-Nền tảng xem phim trực tuyến với giao diện hiện đại, hỗ trợ Dark/Light Mode.
+A modern online movie streaming platform with Dark/Light Mode support.
 
-## 📋 Mục Lục
+## 📋 Table of Contents
 
-- [Tính Năng](#-tính-năng)
-- [Công Nghệ](#-công-nghệ)
-- [Cài Đặt](#-cài-đặt)
-- [Sử Dụng](#-sử-dụng)
+- [Features](#-features)
+- [Technologies](#-technologies)
+- [Installation](#-installation)
+- [Usage](#-usage)
 - [Git Workflow](#-git-workflow)
-- [Cấu Trúc Dự Án](#-cấu-trúc-dự-án)
+- [Project Structure](#-project-structure)
 - [Scripts](#-scripts)
 
 ---
 
-## ✨ Tính Năng
+## ✨ Features
 
-### Đã Hoàn Thành ✅
-- 🎨 **Dark/Light Mode** - Chuyển đổi theme mượt mà với CSS Variables
-- 🔍 **Advanced Search** - Tìm kiếm nâng cao theo diễn viên, đạo diễn, năm, thể loại
-- 🔔 **Notifications** - Hệ thống thông báo với badge và dropdown
-- 👤 **User Authentication** - Đăng nhập, đăng ký, quản lý profile
-- 🎥 **Movie Management** - CRUD phim, diễn viên, đạo diễn, thể loại
-- 💬 **Comments** - Bình luận và đánh giá phim
-- ⭐ **Ratings** - Hệ thống đánh giá sao
-- 📊 **Admin Dashboard** - Quản trị viên với thống kê chi tiết
-- 📱 **Responsive Design** - Tương thích mọi thiết bị
+### Completed ✅
+- 🎨 **Dark/Light Mode** - Smooth theme switching with CSS Variables
+- 🔍 **Advanced Search** - Search by actor, director, year, and genre
+- 🔔 **Notifications** - Notification system with badge and dropdown
+- 👤 **User Authentication** - Login, register, and profile management
+- 🎥 **Movie Management** - CRUD operations for movies, actors, directors, and categories
+- 💬 **Comments** - Comment and review movies
+- ⭐ **Ratings** - Star rating system
+- 📊 **Admin Dashboard** - Admin panel with detailed statistics
+- 📱 **Responsive Design** - Compatible with all devices
 
-### Đang Phát Triển 🚧
-- 📝 **User Reviews** - Viết review chi tiết
-- 📋 **Playlists** - Tạo danh sách phát riêng
-- 🔔 **Real-time Notifications** - Thông báo thời gian thực
-- 🎯 **Recommendations** - Gợi ý phim thông minh
+### In Development 🚧
+- 📝 **User Reviews** - Write detailed reviews
+- 📋 **Playlists** - Create custom playlists
+- 🔔 **Real-time Notifications** - Real-time notification system
+- 🎯 **Recommendations** - Smart movie recommendations
 
 ---
 
-## 🛠️ Công Nghệ
+## 🛠️ Technologies
 
 ### Frontend
 - **React 18** - UI Library
@@ -59,20 +59,20 @@ Nền tảng xem phim trực tuyến với giao diện hiện đại, hỗ trợ
 
 ---
 
-## 📦 Cài Đặt
+## 📦 Installation
 
-### Yêu Cầu
+### Requirements
 - Node.js >= 14.x
 - MongoDB >= 4.x
 - npm >= 6.x
 
-### Bước 1: Clone Repository
+### Step 1: Clone Repository
 ```bash
 git clone https://github.com/username/movie-app.git
 cd movie-app
 ```
 
-### Bước 2: Cài Đặt Dependencies
+### Step 2: Install Dependencies
 
 #### Server
 ```bash
@@ -86,35 +86,35 @@ cd client
 npm install
 ```
 
-### Bước 3: Cấu Hình Environment
+### Step 3: Environment Configuration
 
-Tạo file `server/.env`:
+Create `server/.env` file:
 ```env
 DB_URL=mongodb://localhost:27017/movie
 PORT=3001
 JWT_SECRET=your_jwt_secret_key_here
 ```
 
-### Bước 4: Import Database
+### Step 4: Import Database
 
 ```bash
 cd server
 npm run import
 ```
 
-### Bước 5: Tạo Admin Account
+### Step 5: Create Admin Account
 
 ```bash
 npm run reset-admin
 ```
 
-Thông tin đăng nhập:
+Login credentials:
 - **Username**: admin
 - **Password**: admin123
 
 ---
 
-## 🚀 Sử Dụng
+## 🚀 Usage
 
 ### Development Mode
 
@@ -123,14 +123,14 @@ Thông tin đăng nhập:
 cd server
 npm run dev
 ```
-Server chạy tại: http://localhost:3001
+Server runs at: http://localhost:3001
 
 #### Terminal 2 - Client
 ```bash
 cd client
 npm start
 ```
-Client chạy tại: http://localhost:3000
+Client runs at: http://localhost:3000
 
 ### Production Mode
 
@@ -150,31 +150,31 @@ npm start
 
 ## 🌳 Git Workflow
 
-### Tạo Branch Mới
+### Create New Branch
 ```bash
-git checkout -b feature/ten-tinh-nang
+git checkout -b feature/feature-name
 ```
 
 ### Commit Code
 ```bash
 git add .
-git commit -m "feat: Add ten-tinh-nang"
+git commit -m "feat: Add feature-name"
 ```
 
-### Merge về Master
+### Merge to Master
 ```bash
 git checkout master
-git merge feature/ten-tinh-nang
+git merge feature/feature-name
 ```
 
-### Đọc Thêm
-- 📚 [GIT_WORKFLOW.md](./GIT_WORKFLOW.md) - Hướng dẫn Git đầy đủ
-- ⚡ [QUICK_GIT_REFERENCE.md](./QUICK_GIT_REFERENCE.md) - Tra cứu nhanh
-- 📊 [GIT_PRACTICE_SUMMARY.md](./GIT_PRACTICE_SUMMARY.md) - Tóm tắt thực hành
+### Read More
+- 📚 [GIT_WORKFLOW.md](./GIT_WORKFLOW.md) - Complete Git guide
+- ⚡ [QUICK_GIT_REFERENCE.md](./QUICK_GIT_REFERENCE.md) - Quick reference
+- 📊 [GIT_PRACTICE_SUMMARY.md](./GIT_PRACTICE_SUMMARY.md) - Practice summary
 
 ---
 
-## 📁 Cấu Trúc Dự Án
+## 📁 Project Structure
 
 ```
 movie-app/
@@ -229,29 +229,29 @@ movie-app/
 ### Server Scripts
 
 ```bash
-npm run dev          # Start server với nodemon
-npm start            # Start server production
-npm run import       # Import database từ JSON
-npm run clear        # Xóa toàn bộ database
-npm run reset-admin  # Tạo/reset admin account
+npm run dev          # Start server with nodemon
+npm start            # Start production server
+npm run import       # Import database from JSON
+npm run clear        # Clear entire database
+npm run reset-admin  # Create/reset admin account
 npm run fix-avatars  # Fix avatar URLs
-npm run test-user    # Tạo test user
+npm run test-user    # Create test user
 ```
 
 ### Client Scripts
 
 ```bash
 npm start            # Start development server
-npm run build        # Build production
+npm run build        # Build for production
 npm test             # Run tests
-npm run eject        # Eject CRA (không khuyến khích)
+npm run eject        # Eject from CRA (not recommended)
 ```
 
 ---
 
 ## 🎨 Theme System
 
-Dự án sử dụng **CSS Variables** cho Dark/Light Mode:
+The project uses **CSS Variables** for Dark/Light Mode:
 
 ### Light Mode
 ```css
@@ -267,7 +267,7 @@ Dự án sử dụng **CSS Variables** cho Dark/Light Mode:
 --accent-color: #e94560;
 ```
 
-### Sử dụng trong Component
+### Usage in Components
 ```jsx
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -309,7 +309,7 @@ POST /api/users/register
 
 ### Protected Routes
 ```javascript
-// Middleware kiểm tra JWT token
+// Middleware to check JWT token
 const authMiddleware = require('./middlewares/authMiddleware');
 
 router.get('/profile', authMiddleware, getProfile);
@@ -320,58 +320,58 @@ router.get('/profile', authMiddleware, getProfile);
 ## 📊 API Endpoints
 
 ### Movies
-- `GET /api/movies` - Lấy danh sách phim
-- `GET /api/movies/:id` - Lấy chi tiết phim
-- `POST /api/movies` - Tạo phim mới (Admin)
-- `PUT /api/movies/:id` - Cập nhật phim (Admin)
-- `DELETE /api/movies/:id` - Xóa phim (Admin)
+- `GET /api/movies` - Get movie list
+- `GET /api/movies/:id` - Get movie details
+- `POST /api/movies` - Create new movie (Admin)
+- `PUT /api/movies/:id` - Update movie (Admin)
+- `DELETE /api/movies/:id` - Delete movie (Admin)
 
 ### Users
-- `POST /api/users/login` - Đăng nhập
-- `POST /api/users/register` - Đăng ký
-- `GET /api/users/profile` - Lấy profile
-- `PUT /api/users/profile` - Cập nhật profile
+- `POST /api/users/login` - Login
+- `POST /api/users/register` - Register
+- `GET /api/users/profile` - Get profile
+- `PUT /api/users/profile` - Update profile
 
 ### Comments
-- `GET /api/comments/movie/:movieId` - Lấy comments của phim
-- `POST /api/comments` - Tạo comment mới
-- `DELETE /api/comments/:id` - Xóa comment
+- `GET /api/comments/movie/:movieId` - Get movie comments
+- `POST /api/comments` - Create new comment
+- `DELETE /api/comments/:id` - Delete comment
 
 ---
 
 ## 🤝 Contributing
 
-### Quy Trình Đóng Góp
+### Contribution Process
 
-1. Fork repository
-2. Tạo branch mới: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'feat: Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Tạo Pull Request
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'feat: Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Create a Pull Request
 
 ### Commit Convention
 
-Sử dụng [Conventional Commits](https://www.conventionalcommits.org/):
+Using [Conventional Commits](https://www.conventionalcommits.org/):
 
-- `feat:` - Tính năng mới
-- `fix:` - Sửa lỗi
-- `docs:` - Cập nhật tài liệu
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation update
 - `style:` - CSS/styling
-- `refactor:` - Tái cấu trúc code
-- `test:` - Thêm test
-- `chore:` - Công việc khác
+- `refactor:` - Code refactoring
+- `test:` - Add tests
+- `chore:` - Other tasks
 
 ---
 
 ## 📝 License
 
-MIT License - Xem file [LICENSE](./LICENSE) để biết thêm chi tiết.
+MIT License - See [LICENSE](./LICENSE) file for details.
 
 ---
 
 ## 👥 Authors
 
-- **Phạm Ngọc Anh** - [phamngocanhtb03@gmail.com](mailto:phamngocanhtb03@gmail.com)
+- **Pham Ngoc Anh** - [phamngocanhtb03@gmail.com](mailto:phamngocanhtb03@gmail.com)
 
 ---
 
@@ -380,17 +380,17 @@ MIT License - Xem file [LICENSE](./LICENSE) để biết thêm chi tiết.
 - React Team
 - Express Team
 - MongoDB Team
-- Tất cả contributors
+- All contributors
 
 ---
 
 ## 📞 Support
 
-Nếu có vấn đề, hãy:
-1. Đọc [GIT_WORKFLOW.md](./GIT_WORKFLOW.md)
-2. Kiểm tra [Issues](https://github.com/username/movie-app/issues)
-3. Tạo issue mới
-4. Liên hệ: phamngocanhtb03@gmail.com
+If you have any issues:
+1. Read [GIT_WORKFLOW.md](./GIT_WORKFLOW.md)
+2. Check [Issues](https://github.com/username/movie-app/issues)
+3. Create a new issue
+4. Contact: phamngocanhtb03@gmail.com
 
 ---
 
@@ -421,7 +421,7 @@ Nếu có vấn đề, hãy:
 
 ## 📈 Stats
 
-- **Total Commits**: 6
+- **Total Commits**: 8
 - **Total Files**: 240+
 - **Lines of Code**: 62,000+
 - **Components**: 50+
@@ -429,4 +429,4 @@ Nếu có vấn đề, hãy:
 
 ---
 
-**Made with ❤️ by Phạm Ngọc Anh**
+**Made with ❤️ by Pham Ngoc Anh**
