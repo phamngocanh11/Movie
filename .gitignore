@@ -42,3 +42,5 @@ coverage/
 all_text.txt
 PROJECT_OVERVIEW.md
 UI_UX_REVIEW.md
+client/README.md
+client/src/components/UI/README.md
