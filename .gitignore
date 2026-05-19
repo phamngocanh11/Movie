@@ -38,3 +38,7 @@ coverage/
 # Misc
 *.bak
 *.tmp
+*.docx
+all_text.txt
+PROJECT_OVERVIEW.md
+UI_UX_REVIEW.md
