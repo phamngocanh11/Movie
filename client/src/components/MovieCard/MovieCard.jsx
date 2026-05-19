@@ -12,24 +12,24 @@ const MovieCard = ({ movie, variant = "default" }) => {
     const getCategoryNames = async () => {
       if (!movie.categories || movie.categories.length === 0) return;
 
-      if (typeof movie.categories[0] === 'object' && movie.categories[0].name) {
-        setCategoryNames(movie.categories.map(cat => cat.name));
+      if (typeof movie.categories[0] === "object" && movie.categories[0].name) {
+        setCategoryNames(movie.categories.map((cat) => cat.name));
         return;
       }
 
       try {
         const allCategories = await categoryService.getAllCategories();
-        const categoryData = Array.isArray(allCategories.data) 
-          ? allCategories.data 
+        const categoryData = Array.isArray(allCategories.data)
+          ? allCategories.data
           : allCategories;
 
         const categoryMap = {};
-        categoryData.forEach(cat => {
+        categoryData.forEach((cat) => {
           categoryMap[cat._id] = cat.name;
         });
 
-        const names = movie.categories.map(catId => 
-          categoryMap[catId] || "Không xác định"
+        const names = movie.categories.map(
+          (catId) => categoryMap[catId] || "Không xác định",
         );
         setCategoryNames(names);
       } catch (error) {
@@ -67,6 +67,25 @@ const MovieCard = ({ movie, variant = "default" }) => {
         {movie.year === 2024 && <div className="new-badge">Mới</div>}
 
         {movie.time && <div className="episodes-badge">{movie.time}</div>}
+
+        {movie._continueWatching && (
+          <div className="continue-progress-wrapper">
+            <div className="continue-progress-text">
+              Đã xem {movie._continueWatching.percentWatched || 0}%
+            </div>
+            <div className="continue-progress-bar-bg">
+              <div
+                className="continue-progress-bar-fill"
+                style={{
+                  width: `${Math.min(
+                    Math.max(movie._continueWatching.percentWatched || 0, 0),
+                    100,
+                  )}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="movie-card-info">
@@ -76,9 +95,7 @@ const MovieCard = ({ movie, variant = "default" }) => {
         <div className="card-meta">
           <span>{movie.year}</span> •{" "}
           <span>
-            {categoryNames.length > 0
-              ? categoryNames.join(", ")
-              : "Chưa rõ"}
+            {categoryNames.length > 0 ? categoryNames.join(", ") : "Chưa rõ"}
           </span>
         </div>
       </div>

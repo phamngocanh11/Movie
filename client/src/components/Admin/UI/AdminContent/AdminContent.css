@@ -1,25 +1,33 @@
 .adm-content {
   min-height: calc(100vh - var(--adm-header-height));
-  background: var(--bg-primary);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(233, 69, 96, 0.06), transparent 28rem),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.025), transparent 18rem),
+    var(--bg-primary);
 }
 
 [data-theme="dark"] .adm-content {
-  background: transparent;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(233, 69, 96, 0.11), transparent 30rem),
+    radial-gradient(circle at 82% 10%, rgba(59, 130, 246, 0.045), transparent 24rem),
+    #09090b;
 }
 
 .adm-content-wrapper {
-  border-radius: 10px;
-  padding: 2rem;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem);
   min-height: calc(100vh - var(--adm-header-height) - 4rem);
   color: var(--text-primary);
 }
 
 [data-theme="dark"] .adm-content-wrapper {
-  padding: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
 }
 
 @media (max-width: 768px) {
   .adm-content-wrapper {
-    padding: 1rem;
+    padding: 0.9rem;
   }
 }

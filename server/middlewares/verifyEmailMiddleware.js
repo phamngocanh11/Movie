@@ -1,4 +1,5 @@
 const logger = require("../config/logger");
+const User = require("../models/user");
 
 /**
  * Email Verification Middleware
@@ -9,9 +10,9 @@ const logger = require("../config/logger");
  */
 const verifyEmailMiddleware = async (req, res, next) => {
   try {
-    const user = req.user;
+    const tokenUser = req.user;
 
-    if (!user) {
+    if (!tokenUser || !tokenUser.id) {
       logger.warn("Middleware: User not found in request");
       return res.status(401).json({
         success: false,
@@ -19,9 +20,19 @@ const verifyEmailMiddleware = async (req, res, next) => {
       });
     }
 
-    // Check if email is verified
+    const user = await User.findById(tokenUser.id).select(
+      "isEmailVerified email",
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     if (!user.isEmailVerified) {
-      logger.warn(`Email verification check failed for user: ${user.id}`);
+      logger.warn(`Email verification check failed for user: ${tokenUser.id}`);
       return res.status(403).json({
         success: false,
         message:
@@ -31,7 +42,7 @@ const verifyEmailMiddleware = async (req, res, next) => {
       });
     }
 
-    logger.info(`Email verified for user: ${user.id}`);
+    logger.info(`Email verified for user: ${tokenUser.id}`);
     next();
   } catch (error) {
     logger.error("Email verification middleware error:", error.message);

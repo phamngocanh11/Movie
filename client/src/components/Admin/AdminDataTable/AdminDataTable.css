@@ -1,10 +1,12 @@
 .admin-datatable {
   position: relative;
   border-radius: 12px;
-  border: none;
+  border: 1px solid var(--border-color);
   overflow: hidden;
   width: 100%;
   max-width: 100%;
+  background: var(--card-bg);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
 }
 
 .admin-datatable__glass {
@@ -14,6 +16,11 @@
   right: 0;
   bottom: 0;
   z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 45%),
+    rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .admin-datatable__container {
@@ -66,13 +73,13 @@
 }
 
 .admin-datatable__table thead th {
-  padding: 16px 20px;
+  padding: 15px 20px;
   text-align: left;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 0.78rem;
   color: rgb(107, 114, 128);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -81,12 +88,16 @@
   background: rgb(249, 250, 251);
 }
 
-[data-theme="dark"] {
-  .admin-datatable__table thead th {
-    color: rgba(255, 255, 255, 0.7);
-    border-bottom: 2px solid rgb(63, 63, 70);
-    background: rgb(24, 24, 27);
-  }
+[data-theme="dark"] .admin-datatable {
+  background: rgba(18, 18, 22, 0.72);
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="dark"] .admin-datatable__table thead th {
+  color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(24, 24, 27, 0.96);
 }
 
 .admin-datatable__table thead th.sortable {
@@ -134,16 +145,17 @@
 }
 
 .admin-datatable__table tbody tr {
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
   border-bottom: 1px solid rgb(229, 231, 235);
   background: rgb(255, 255, 255);
 }
 
-[data-theme="dark"] {
-  .admin-datatable__table tbody tr {
-    border-bottom: 1px solid rgb(63, 63, 70);
-    background: rgb(24, 24, 27);
-  }
+[data-theme="dark"] .admin-datatable__table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(24, 24, 27, 0.74);
 }
 
 /* Zebra Stripes */
@@ -151,37 +163,31 @@
   background-color: rgb(249, 250, 251);
 }
 
-[data-theme="dark"] {
-  .admin-datatable__table tbody tr:nth-child(even) {
-    background-color: rgb(39, 39, 42);
-  }
+[data-theme="dark"] .admin-datatable__table tbody tr:nth-child(even) {
+  background-color: rgba(32, 32, 36, 0.72);
 }
 
 .admin-datatable__table tbody tr:hover {
-  background-color: rgb(243, 244, 246);
-  transform: scale(1.001);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgb(248, 250, 252);
+  transform: translateY(-1px);
+  box-shadow: inset 3px 0 0 rgba(233, 69, 96, 0.75);
 }
 
-[data-theme="dark"] {
-  .admin-datatable__table tbody tr:hover {
-    background-color: rgb(52, 52, 55);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
+[data-theme="dark"] .admin-datatable__table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 3px 0 0 rgba(233, 69, 96, 0.82);
 }
 
 .admin-datatable__table td {
-  padding: 16px 20px;
+  padding: 15px 20px;
   border-bottom: none;
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   color: rgb(18, 18, 18);
   vertical-align: middle;
 }
 
-[data-theme="dark"] {
-  .admin-datatable__table td {
-    color: white;
-  }
+[data-theme="dark"] .admin-datatable__table td {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .admin-datatable__table tbody tr:last-child {
@@ -207,27 +213,28 @@
 
 .admin-datatable__actions-cell {
   white-space: nowrap;
+  min-width: 136px;
 }
 
 .admin-datatable__action-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  background: transparent;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.04);
   color: rgb(107, 114, 128);
   cursor: pointer;
-  margin-right: 8px;
+  margin-right: 6px;
   transition: all 0.2s ease;
 }
 
-[data-theme="dark"] {
-  .admin-datatable__action-btn {
-    color: rgba(255, 255, 255, 0.7);
-  }
+[data-theme="dark"] .admin-datatable__action-btn {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .admin-datatable__action-btn:last-child {
@@ -235,31 +242,36 @@
 }
 
 .admin-datatable__view-btn:hover {
-  background: rgba(52, 152, 219, 0.1);
+  background: rgba(52, 152, 219, 0.14);
+  border-color: rgba(52, 152, 219, 0.28);
   color: rgba(52, 152, 219, 1);
   transform: translateY(-2px);
 }
 
 .admin-datatable__edit-btn:hover {
-  background: rgba(243, 156, 18, 0.1);
+  background: rgba(243, 156, 18, 0.14);
+  border-color: rgba(243, 156, 18, 0.28);
   color: rgba(243, 156, 18, 1);
   transform: translateY(-2px);
 }
 
 .admin-datatable__delete-btn:hover {
-  background: rgba(231, 76, 60, 0.1);
+  background: rgba(231, 76, 60, 0.14);
+  border-color: rgba(231, 76, 60, 0.28);
   color: rgba(231, 76, 60, 1);
   transform: translateY(-2px);
 }
 
 .admin-datatable__ban-btn:hover {
-  background: rgba(255, 152, 0, 0.1);
+  background: rgba(255, 152, 0, 0.14);
+  border-color: rgba(255, 152, 0, 0.28);
   color: rgba(255, 152, 0, 1);
   transform: translateY(-2px);
 }
 
 .admin-datatable__unban-btn:hover {
-  background: rgba(76, 175, 80, 0.1);
+  background: rgba(76, 175, 80, 0.14);
+  border-color: rgba(76, 175, 80, 0.28);
   color: rgba(76, 175, 80, 1);
   transform: translateY(-2px);
 }
@@ -273,10 +285,9 @@
 
 .admin-datatable__loading {
   display: flex;
-  flex-direction: covar(--border-color);
-  border-radius: 50%;
-  border-top: 3px solid var(--text-secondary);
-  animation: spin 1s linear infinite;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 [data-theme="dark"] .admin-datatable__loading-spinner {
@@ -462,9 +473,9 @@
 }
 
 [data-theme="light"] .admin-datatable__pagination-btn:hover:not(:disabled) {
-  background: #e2e8f0);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #111827;
 }
 
 [data-theme="light"] .admin-datatable__pagination-btn {
@@ -530,8 +541,8 @@
   }
 
   .admin-datatable__action-btn {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     margin-right: 4px;
   }
   

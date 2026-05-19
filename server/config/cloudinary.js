@@ -8,14 +8,26 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  allowedFormats: ["jpg", "png"],
-  params: {
-    folder: "movies/avatars",
-  },
-});
+const createUploadMiddleware = (folder, allowedFormats = ["jpg", "png", "jpeg", "webp"]) => {
+  const storage = new CloudinaryStorage({
+    cloudinary,
+    allowedFormats,
+    params: {
+      folder,
+    },
+  });
 
-const uploadCloud = multer({ storage });
+  return multer({ storage });
+};
 
-module.exports = { uploadCloud };
+const uploadAvatarCloud = createUploadMiddleware("movies/avatars");
+const uploadMovieCloud = createUploadMiddleware("movies/media");
+
+// Backward-compatible export for existing routes
+const uploadCloud = uploadAvatarCloud;
+
+module.exports = {
+  uploadCloud,
+  uploadAvatarCloud,
+  uploadMovieCloud,
+};

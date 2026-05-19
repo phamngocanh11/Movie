@@ -6,6 +6,7 @@ import Input from "../../../components/UI/Input/Input";
 import Button from "../../../components/UI/Button/Button";
 import userService from "../../../services/userService";
 import { toast } from "sonner";
+import GoogleLoginButton from "../../../components/Auth/GoogleLoginButton/GoogleLoginButton";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -90,31 +91,37 @@ function Register() {
   return (
     <AuthLayout>
       <div className="register-container">
-        <h2 className="register-title">Đăng ký</h2>
-        <form className="register-form" onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            id="name"
-            name="name"
-            label="Tên hiển thị"
-            placeholder="Nhập tên hiển thị"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            error={errors.name}
-          />
+        <div className="auth-header-text">
+          <h2 className="register-title">Tạo tài khoản mới</h2>
+          <p className="register-subtitle">Tham gia cùng chúng tôi ngay hôm nay</p>
+        </div>
 
-          <Input
-            type="text"
-            id="username"
-            name="username"
-            label="Tên đăng nhập"
-            placeholder="Nhập tên đăng nhập"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            error={errors.username}
-          />
+        <form className="register-form" onSubmit={handleSubmit}>
+          <div className="form-row">
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              label="Tên hiển thị"
+              placeholder="Nhập tên"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              error={errors.name}
+            />
+
+            <Input
+              type="text"
+              id="username"
+              name="username"
+              label="Tên đăng nhập"
+              placeholder="Nhập username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              error={errors.username}
+            />
+          </div>
 
           <Input
             type="email"
@@ -128,33 +135,37 @@ function Register() {
             error={errors.email}
           />
 
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            label="Mật khẩu"
-            placeholder="Nhập mật khẩu"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            error={errors.password}
-          />
+          <div className="form-row">
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              label="Mật khẩu"
+              placeholder="Nhập mật khẩu"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              error={errors.password}
+            />
 
-          <Input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            label="Xác nhận mật khẩu"
-            placeholder="Nhập lại mật khẩu"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-            error={errors.confirmPassword}
-          />
+            <Input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              label="Xác nhận"
+              placeholder="Nhập lại"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              error={errors.confirmPassword}
+            />
+          </div>
 
           <Button type="submit" variant="primary" fullWidth>
             Đăng ký
           </Button>
+
+          <GoogleLoginButton actionText="signup_with" />
 
           <div className="login-link">
             Đã có tài khoản? <Link to="/login">Đăng nhập</Link>

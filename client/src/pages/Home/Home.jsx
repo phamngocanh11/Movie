@@ -4,13 +4,34 @@ import UserLayout from "../../layouts/UserLayout/UserLayout";
 import HeroSlider from "../../components/HeroSlider/HeroSlider";
 import MovieSection from "../../components/MovieSection/MovieSection";
 import movieService from "../../services/movieService";
+import userService from "../../services/userService";
+import { getUserSingleInfo, isAuthenticated } from "../../utils/auth";
 import { toast } from "sonner";
+
+const getMovieIdentity = (movie, index) =>
+  movie?._id || movie?.id || movie?.slug || movie?.name || `movie-${index}`;
+
+const uniqueMovies = (movies = []) => {
+  const seen = new Set();
+
+  return movies.filter((movie, index) => {
+    const key = String(getMovieIdentity(movie, index));
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+};
 
 function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [topFavoriteMovies, setTopFavoriteMovies] = useState([]);
+  const [continueWatchingMovies, setContinueWatchingMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,24 +43,25 @@ function Home() {
         const response = await movieService.getAllMovies();
 
         if (response?.data) {
-          const allMovies = response.data;
+          const allMovies = uniqueMovies(response.data);
 
           const trending = [...allMovies]
             .sort((a, b) => (b.views || 0) - (a.views || 0))
-            .slice(0, 5);
+            .slice(0, 10);
           setTrendingMovies(trending);
 
           const newReleasesData = [...allMovies]
             .sort(
               (a, b) =>
-                new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0)
+                new Date(b.releaseDate || b.year || 0) -
+                new Date(a.releaseDate || a.year || 0),
             )
-            .slice(0, 5);
+            .slice(0, 10);
           setNewReleases(newReleasesData);
 
           const rated = [...allMovies]
             .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-            .slice(0, 5);
+            .slice(0, 10);
           setTopRated(rated);
         }
       } catch (error) {
@@ -47,6 +69,40 @@ function Home() {
         toast.error("Không thể tải danh sách phim");
       } finally {
         setIsLoading(false);
+      }
+    };
+
+    const fetchContinueWatching = async () => {
+      try {
+        if (!isAuthenticated()) {
+          setContinueWatchingMovies([]);
+          return;
+        }
+
+        const userId = getUserSingleInfo("_id");
+        if (!userId) {
+          setContinueWatchingMovies([]);
+          return;
+        }
+
+        const response = await userService.getContinueWatching(userId, 10);
+
+        const mappedMovies = uniqueMovies(
+          (response || []).map((item) => ({
+            ...(item.movie || {}),
+            _continueWatching: {
+              watchedDuration: item.watchedDuration,
+              totalDuration: item.totalDuration,
+              percentWatched: item.percentWatched,
+              updatedAt: item.updatedAt,
+            },
+          })),
+        );
+
+        setContinueWatchingMovies(mappedMovies);
+      } catch (error) {
+        console.error("Error in fetchContinueWatching:", error);
+        setContinueWatchingMovies([]);
       }
     };
 
@@ -58,11 +114,11 @@ function Home() {
           response.success === true &&
           Array.isArray(response.data)
         ) {
-          setTopFavoriteMovies(response.data);
+          setTopFavoriteMovies(uniqueMovies(response.data));
         } else {
           console.log(
             "Invalid response format from top favorites API:",
-            response
+            response,
           );
           setTopFavoriteMovies([]);
         }
@@ -73,6 +129,7 @@ function Home() {
     };
 
     fetchAllMovies();
+    fetchContinueWatching();
     fetchTopFavorites();
   }, []);
 
@@ -95,6 +152,13 @@ function Home() {
             </div>
           ) : (
             <>
+              {continueWatchingMovies.length > 0 && (
+                <MovieSection
+                  title="Xem tiếp"
+                  movies={continueWatchingMovies}
+                />
+              )}
+
               <MovieSection
                 title="Đang Thịnh Hành"
                 linkTo="/trending"

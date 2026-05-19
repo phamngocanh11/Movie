@@ -1,4 +1,5 @@
 const express = require("express");
+const { uploadMovieCloud } = require("../config/cloudinary");
 const {
   searchMovies,
   getAllMovies,
@@ -18,6 +19,8 @@ const {
   getUserMovieRating,
 } = require("../controllers/movieController");
 const router = express.Router();
+const { verifyToken } = require("../middlewares/authMiddleware");
+const { requireAdmin } = require("../middlewares/roleMiddleware");
 
 /**
  * @swagger
@@ -210,6 +213,8 @@ router.get("/:id", getMovieById);
  *   post:
  *     summary: Create new movie (Admin only)
  *     tags: [Movies]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -227,7 +232,17 @@ router.get("/:id", getMovieById);
  *       201:
  *         description: Movie created
  */
-router.post("/add", createMovie);
+router.post(
+  "/add",
+  verifyToken,
+  requireAdmin,
+  uploadMovieCloud.fields([
+    { name: "poster_url", maxCount: 1 },
+    { name: "backdrop_url", maxCount: 1 },
+    { name: "thumb_url", maxCount: 1 },
+  ]),
+  createMovie,
+);
 
 /**
  * @swagger
@@ -235,6 +250,8 @@ router.post("/add", createMovie);
  *   put:
  *     summary: Update movie (Admin only)
  *     tags: [Movies]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -245,7 +262,17 @@ router.post("/add", createMovie);
  *       200:
  *         description: Movie updated
  */
-router.put("/update/:id", updateMovie);
+router.put(
+  "/update/:id",
+  verifyToken,
+  requireAdmin,
+  uploadMovieCloud.fields([
+    { name: "poster_url", maxCount: 1 },
+    { name: "backdrop_url", maxCount: 1 },
+    { name: "thumb_url", maxCount: 1 },
+  ]),
+  updateMovie,
+);
 
 /**
  * @swagger
@@ -253,6 +280,8 @@ router.put("/update/:id", updateMovie);
  *   delete:
  *     summary: Delete movie (Admin only)
  *     tags: [Movies]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -263,7 +292,7 @@ router.put("/update/:id", updateMovie);
  *       200:
  *         description: Movie deleted
  */
-router.delete("/delete/:id", deleteMovie);
+router.delete("/delete/:id", verifyToken, requireAdmin, deleteMovie);
 
 /**
  * @swagger

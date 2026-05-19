@@ -1,22 +1,23 @@
 const Category = require("../models/category");
+const { successResponse, errorResponse } = require("../utils/apiResponse");
 
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
     const category = new Category({ name });
     await category.save();
-    res.status(201).json({ success: true, data: category });
+    return successResponse(res, category, "Category created", 201);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
-    res.status(200).json({ success: true, data: categories });
+    return successResponse(res, categories, "Categories fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -24,13 +25,12 @@ exports.getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
     if (!category) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay the loai" });
+      return errorResponse(res, "Khong tim thay the loai", 404);
     }
-    res.status(200).json({ success: true, data: category });
+
+    return successResponse(res, category, "Category fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -40,16 +40,16 @@ exports.updateCategory = async (req, res) => {
     const category = await Category.findByIdAndUpdate(
       req.params.id,
       { name },
-      { new: true }
+      { new: true },
     );
+
     if (!category) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay the loai" });
+      return errorResponse(res, "Khong tim thay the loai", 404);
     }
-    res.status(200).json({ success: true, data: category });
+
+    return successResponse(res, category, "Category updated");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -57,12 +57,11 @@ exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (!category) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay the loai" });
+      return errorResponse(res, "Khong tim thay the loai", 404);
     }
-    res.status(200).json({ success: true, data: {} });
+
+    return successResponse(res, {}, "Category deleted");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };

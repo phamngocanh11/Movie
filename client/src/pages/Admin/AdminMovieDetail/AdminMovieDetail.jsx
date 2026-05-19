@@ -9,16 +9,13 @@ import Button from "../../../components/UI/Button/Button";
 import { toast } from "sonner";
 import "./AdminMovieDetail.css";
 
-import { 
-  MdEdit, 
-  MdDelete, 
-  MdLocalMovies,
+import {
+  MdDelete,
   MdStar,
   MdAccessTime,
   MdCalendarToday,
   MdMovie,
   MdVideoLibrary,
-  MdPlayArrow,
   MdCategory,
   MdVisibility,
   MdComment,
@@ -36,6 +33,7 @@ function AdminMovieDetail() {
 
   useEffect(() => {
     fetchMovieData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchMovieData = async () => {
@@ -80,9 +78,7 @@ function AdminMovieDetail() {
     }
   };
 
-  const handleEdit = () => {
-    navigate(`/admin/movies/edit/${id}`);
-  };
+
 
   const handleDelete = async () => {
     if (window.confirm("Bạn có chắc chắn muốn xóa phim này không?")) {

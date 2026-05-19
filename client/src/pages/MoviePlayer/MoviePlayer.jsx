@@ -4,10 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   FaArrowLeft,
   FaShare,
-  FaHeart,
-  FaRegHeart,
-  FaPause,
-  FaPlay,
 } from "react-icons/fa";
 import movieService from "../../services/movieService";
 import userService from "../../services/userService";
@@ -17,6 +13,20 @@ import "./MoviePlayer.css";
 import { useFavorite } from "../../contexts/FavoriteContext";
 import FavoriteButton from "../../components/UI/FavoriteButton/FavoriteButton";
 import ResumeModal from "../../components/UI/ResumeModal/ResumeModal";
+
+const getPlayableSourceUrl = (sourceUrl = "") => {
+  const firstSource = sourceUrl
+    .split(/\r?\n/)
+    .map((item) => item.trim())
+    .find(Boolean);
+
+  if (!firstSource) return "";
+
+  const separatorIndex = firstSource.indexOf("|");
+  return separatorIndex >= 0
+    ? firstSource.slice(separatorIndex + 1).trim()
+    : firstSource;
+};
 
 const MoviePlayer = () => {
   const { slug } = useParams();
@@ -38,6 +48,8 @@ const MoviePlayer = () => {
     useFavorite();
   const [watchHistory, setWatchHistory] = useState(null);
   const [showResumeModal, setShowResumeModal] = useState(false);
+  const [playerError, setPlayerError] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [startAt, setStartAt] = useState(0);
 
   useEffect(() => {
@@ -68,9 +80,11 @@ const MoviePlayer = () => {
       clearTimeout(controlTimerRef.current);
       saveWatchHistory();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, checkIsFavorite]);
 
   useEffect(() => {
+    const currentPlayer = playerRef.current;
     const checkWatchHistory = async () => {
       if (isAuthenticated() && movie?._id) {
         try {
@@ -105,8 +119,8 @@ const MoviePlayer = () => {
     }
 
     return () => {
-      if (movie && isAuthenticated() && playerRef.current) {
-        const currentTime = playerRef.current.getCurrentTime();
+      if (movie && isAuthenticated() && currentPlayer) {
+        const currentTime = currentPlayer.getCurrentTime();
         if (currentTime > 0) {
           const userId = getUserSingleInfo("_id");
           const duration = playerState.duration || 0;
@@ -118,6 +132,7 @@ const MoviePlayer = () => {
         }
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movie]);
 
   const saveWatchHistory = async (force = false) => {
@@ -197,13 +212,7 @@ const MoviePlayer = () => {
     }
   };
 
-  const togglePlay = () => {
-    setPlayerState((prev) => ({ ...prev, playing: !prev.playing }));
 
-    if (playerState.playing) {
-      saveWatchHistory();
-    }
-  };
 
   const handleProgress = (state) => {
     setPlayerState((prev) => ({
@@ -310,7 +319,9 @@ const MoviePlayer = () => {
     );
   }
 
-  if (!movie || !movie.source_url) {
+  const playableSourceUrl = getPlayableSourceUrl(movie?.source_url);
+
+  if (!movie || !playableSourceUrl) {
     return (
       <div className="mp-container__error">
         <h2>Không thể phát phim</h2>
@@ -351,9 +362,15 @@ const MoviePlayer = () => {
         </div>
       </div>
 
+      {playerError && (
+        <div className="mp-player-error">
+          {playerError}
+        </div>
+      )}
+
       <ReactPlayer
         ref={playerRef}
-        url={movie.source_url}
+        url={playableSourceUrl}
         className="mp-react-player"
         width="100%"
         height="100%"
@@ -368,12 +385,14 @@ const MoviePlayer = () => {
         }}
         onDuration={handleDuration}
         onEnded={saveWatchHistory}
+        onReady={() => setPlayerError("")}
+        onError={(error) => {
+          console.error("Movie player error:", error);
+          setPlayerError("Không thể tải nguồn phát phim. Vui lòng kiểm tra URL nguồn phim.");
+        }}
         progressInterval={1000}
         config={{
           file: {
-            attributes: {
-              crossOrigin: "anonymous",
-            },
             forceVideo: true,
           },
         }}

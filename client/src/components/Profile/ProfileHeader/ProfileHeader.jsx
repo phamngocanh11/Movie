@@ -2,6 +2,7 @@ import React from "react";
 import { FaUser, FaCamera } from "react-icons/fa";
 import "./ProfileHeader.css";
 import moment from "moment";
+import { getAvatarUrl } from "../../../utils/auth";
 
 const ProfileHeader = ({
   user,
@@ -13,15 +14,16 @@ const ProfileHeader = ({
   cssNamespace = "ph",
 }) => {
   const classWithPrefix = (className) => `${cssNamespace}-${className}`;
+  const avatarUrl = previewImage || getAvatarUrl(user.avatar);
 
   return (
     <div className={classWithPrefix("header")}>
       <div className={classWithPrefix("header-content")}>
         <div className={classWithPrefix("avatar-container")}>
           <div className={classWithPrefix("avatar")}>
-            {user.avatar || previewImage ? (
+            {avatarUrl ? (
               <img
-                src={previewImage || user.avatar}
+                src={avatarUrl}
                 alt={user.username}
                 className={classWithPrefix("user-avatar")}
               />

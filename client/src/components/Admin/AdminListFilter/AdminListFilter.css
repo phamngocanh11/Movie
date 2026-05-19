@@ -1,12 +1,12 @@
 .admin-list-filter {
   position: relative;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  padding: 20px;
-  margin-bottom: 2rem;
+  padding: 16px;
+  margin-bottom: 1.5rem;
   overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.07);
 }
 
 .admin-list-filter__glass {
@@ -16,13 +16,24 @@
   right: 0;
   bottom: 0;
   z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 60%),
+    rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme="dark"] .admin-list-filter {
+  background: rgba(18, 18, 22, 0.72);
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
 }
 
 .admin-list-filter__search {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -47,10 +58,11 @@
   min-width: 0;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text-primary);
   font-size: 0.95rem;
-  padding: 12px 40px 12px 40px;
+  font-weight: 500;
+  padding: 12px 42px 12px 42px;
   transition: all 0.3s ease;
 }
 
@@ -68,8 +80,8 @@
 
 .admin-list-filter__search-input:focus {
   outline: none;
-  border-color: #e50914;
-  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+  border-color: #e94560;
+  box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.14);
   background: var(--bg-secondary);
 }
 
@@ -116,7 +128,7 @@
   gap: 8px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text-primary);
   padding: 8px 12px;
   cursor: pointer;
@@ -159,7 +171,7 @@
 .admin-list-filter__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 14px;
   transition:
     max-height 0.3s ease,
     opacity 0.2s ease,
@@ -176,15 +188,17 @@
 
 .admin-list-filter__group {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .admin-list-filter__label {
   display: block;
   margin-bottom: 8px;
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 [data-theme="light"] .admin-list-filter__label {
@@ -204,10 +218,11 @@
   width: 100%;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text-primary);
   font-size: 0.9rem;
-  padding: 10px 35px 10px 12px;
+  font-weight: 500;
+  padding: 11px 36px 11px 12px;
   appearance: none;
   cursor: pointer;
   transition: all 0.3s;
@@ -242,8 +257,8 @@
 
 .admin-list-filter__select:focus {
   outline: none;
-  border-color: #e50914;
-  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+  border-color: #e94560;
+  box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.14);
   background: var(--bg-secondary);
 }
 
@@ -326,6 +341,12 @@
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   transition: all 0.2s;
+}
+
+.admin-list-filter__radio:hover .admin-list-filter__radio-text,
+.admin-list-filter__checkbox:hover .admin-list-filter__checkbox-text {
+  border-color: rgba(233, 69, 96, 0.32);
+  transform: translateY(-1px);
 }
 
 .admin-list-filter__radio-text::before {
@@ -449,7 +470,7 @@
 
 @media (max-width: 768px) {
   .admin-list-filter {
-    padding: 15px;
+    padding: 14px;
   }
 
   .admin-list-filter__search {

@@ -220,24 +220,29 @@ function Profile() {
         const response = await userService.updateUser(userId, updateData);
 
         if (response) {
+          const responseUser = response.data || response.user || response;
           const updatedUser = {
             ...user,
+            ...responseUser,
             name: formData.name,
             email: formData.email,
           };
 
-          if (response.avatar) {
-            updatedUser.avatar = response.avatar;
+          if (responseUser.avatar) {
+            updatedUser.avatar = responseUser.avatar;
           }
 
           setUser(updatedUser);
 
           encryptedUserData(updatedUser);
+          window.dispatchEvent(
+            new CustomEvent("user-updated", { detail: updatedUser })
+          );
 
           setEditing(false);
           setPreviewImage(null);
           setSelectedFile(null);
-          window.location.reload();
+          toast.success("Cập nhật thông tin thành công");
         }
       } catch (error) {
         toast.error(

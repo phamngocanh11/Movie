@@ -2,33 +2,48 @@
   width: 100%;
 }
 
-.login-title {
+.auth-header-text {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
+}
+
+.login-title {
   color: var(--text-primary);
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.login-form .input-group {
+  margin-bottom: 0;
 }
 
 .form-options {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   font-size: 13px;
-  color: var(--text-secondary);
+  margin-top: -8px;
 }
 
 .forgot-password {
   color: var(--accent-color);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s;
-  margin: 0 0 15px 0;
+  transition: all 0.2s ease;
 }
 
 .forgot-password:hover {
@@ -40,17 +55,74 @@
   text-align: center;
   font-size: 14px;
   color: var(--text-secondary);
-  margin-top: 15px;
+  margin-top: 24px;
 }
 
 .register-link a {
   color: var(--accent-color);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-left: 4px;
 }
 
 .register-link a:hover {
   color: var(--accent-hover);
   text-decoration: underline;
+}
+
+.oauth-section {
+  margin-top: 16px;
+}
+
+.oauth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(148, 163, 184, 0.24);
+}
+
+.oauth-divider span {
+  white-space: nowrap;
+}
+
+.google-button-wrap {
+  position: relative;
+  min-height: 48px;
+}
+
+.google-button-slot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.google-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.06);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  z-index: 1;
+}
+
+@media (max-width: 480px) {
+  .google-button-slot > div {
+    transform: scale(0.94);
+    transform-origin: center top;
+  }
 }

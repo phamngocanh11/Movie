@@ -1,22 +1,23 @@
 const Actor = require("../models/actor");
+const { successResponse, errorResponse } = require("../utils/apiResponse");
 
 exports.createActor = async (req, res) => {
   try {
     const { name } = req.body;
     const actor = new Actor({ name });
     await actor.save();
-    res.status(201).json({ success: true, data: actor });
+    return successResponse(res, actor, "Actor created", 201);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
 exports.getAllActors = async (req, res) => {
   try {
     const actors = await Actor.find();
-    res.status(200).json({ success: true, data: actors });
+    return successResponse(res, actors, "Actors fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -24,13 +25,12 @@ exports.getActorById = async (req, res) => {
   try {
     const actor = await Actor.findById(req.params.id);
     if (!actor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay dien vien" });
+      return errorResponse(res, "Khong tim thay dien vien", 404);
     }
-    res.status(200).json({ success: true, data: actor });
+
+    return successResponse(res, actor, "Actor fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -40,16 +40,15 @@ exports.updateActor = async (req, res) => {
     const actor = await Actor.findByIdAndUpdate(
       req.params.id,
       { name },
-      { new: true }
+      { new: true },
     );
     if (!actor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay dien vien" });
+      return errorResponse(res, "Khong tim thay dien vien", 404);
     }
-    res.status(200).json({ success: true, data: actor });
+
+    return successResponse(res, actor, "Actor updated");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -57,12 +56,11 @@ exports.deleteActor = async (req, res) => {
   try {
     const actor = await Actor.findByIdAndDelete(req.params.id);
     if (!actor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay dien vien" });
+      return errorResponse(res, "Khong tim thay dien vien", 404);
     }
-    res.status(200).json({ success: true, data: {} });
+
+    return successResponse(res, {}, "Actor deleted");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };

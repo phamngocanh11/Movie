@@ -16,6 +16,28 @@ import actorService from "../../services/actorService";
 import directorService from "../../services/directorService";
 import "./MovieMainContent.css";
 
+const isRawId = (value) =>
+  typeof value === "string" && /^[a-f\d]{24}$/i.test(value.trim());
+
+const cleanText = (value) => {
+  if (!value || isRawId(value)) return "";
+  return String(value);
+};
+
+const formatViews = (views = 0) => {
+  const value = Number(views) || 0;
+
+  if (value >= 1000000) {
+    return `${(value / 1000000).toFixed(value >= 10000000 ? 0 : 1)}M`;
+  }
+
+  if (value >= 1000) {
+    return `${(value / 1000).toFixed(value >= 100000 ? 0 : 1)}K`;
+  }
+
+  return value.toString();
+};
+
 const MovieMainContent = ({ movie }) => {
   const [categoryNames, setCategoryNames] = useState({});
   const [formattedActors, setFormattedActors] = useState("");
@@ -54,7 +76,7 @@ const MovieMainContent = ({ movie }) => {
   useEffect(() => {
     const fetchActorNames = async () => {
       if (typeof movie.actors === 'string') {
-        setFormattedActors(movie.actors);
+        setFormattedActors(cleanText(movie.actors));
         return;
       }
       
@@ -75,9 +97,9 @@ const MovieMainContent = ({ movie }) => {
             actorMap[actor._id] = actor.name;
           });
           
-          const actorsList = movie.actors.map(actorId => 
-            actorMap[actorId] || "Không xác định"
-          );
+          const actorsList = movie.actors
+            .map(actorId => actorMap[actorId] || cleanText(actorId))
+            .filter(Boolean);
           setFormattedActors(actorsList.join(', '));
         } catch (error) {
           console.error("Lỗi khi lấy thông tin diễn viên:", error);
@@ -91,7 +113,7 @@ const MovieMainContent = ({ movie }) => {
   useEffect(() => {
     const fetchDirectorNames = async () => {
       if (typeof movie.director === 'string') {
-        setFormattedDirectors(movie.director);
+        setFormattedDirectors(cleanText(movie.director));
         return;
       }
       
@@ -112,9 +134,9 @@ const MovieMainContent = ({ movie }) => {
             directorMap[director._id] = director.name;
           });
           
-          const directorsList = movie.director.map(directorId => 
-            directorMap[directorId] || "Không xác định"
-          );
+          const directorsList = movie.director
+            .map(directorId => directorMap[directorId] || cleanText(directorId))
+            .filter(Boolean);
           setFormattedDirectors(directorsList.join(', '));
         } catch (error) {
           console.error("Lỗi khi lấy thông tin đạo diễn:", error);
@@ -132,7 +154,9 @@ const MovieMainContent = ({ movie }) => {
             directorMap[director._id] = director.name;
           });
           
-          setFormattedDirectors(directorMap[movie.director] || movie.director);
+          setFormattedDirectors(
+            directorMap[movie.director] || cleanText(movie.director)
+          );
         } catch (error) {
           console.error("Lỗi khi lấy thông tin đạo diễn:", error);
         }
@@ -147,8 +171,12 @@ const MovieMainContent = ({ movie }) => {
       return category.name;
     }
     
-    return categoryNames[category] || category;
+    return categoryNames[category] || cleanText(category);
   };
+
+  const visibleCategories = (movie.categories || [])
+    .map(getCategoryName)
+    .filter(Boolean);
 
   return (
     <div className="mc-container">
@@ -192,7 +220,7 @@ const MovieMainContent = ({ movie }) => {
             {movie.views && (
               <div className="mc-stat-item">
                 <FaEye />
-                <span>{`${(movie.views / 1000).toFixed(1)}K`}</span>
+                <span>{formatViews(movie.views)} lượt xem</span>
               </div>
             )}
 
@@ -222,37 +250,37 @@ const MovieMainContent = ({ movie }) => {
           </div>
 
           <div className="mc-info-grid">
-            {(movie.director || formattedDirectors) && (
+            {formattedDirectors && (
               <div className="mc-info-item">
                 <span className="mc-info-label">
                   <FaUserTie className="mc-label-icon" />
                   Đạo diễn
                 </span>
-                <span className="mc-info-value">{formattedDirectors || movie.director}</span>
+                <span className="mc-info-value">{formattedDirectors}</span>
               </div>
             )}
 
-            {(movie.actors || formattedActors) && (
+            {formattedActors && (
               <div className="mc-info-item">
                 <span className="mc-info-label">
                   <FaUsers className="mc-label-icon" />
                   Diễn viên
                 </span>
-                <span className="mc-info-value">{formattedActors || movie.actors}</span>
+                <span className="mc-info-value">{formattedActors}</span>
               </div>
             )}
           </div>
 
-          {movie.categories && movie.categories.length > 0 && (
+          {visibleCategories.length > 0 && (
             <div className="mc-section mc-categories-section">
               <h3 className="mc-section-title">
                 <FaTag className="mc-title-icon" />
                 Thể loại
               </h3>
               <div className="mc-categories">
-                {movie.categories.map((category, index) => (
+                {visibleCategories.map((category, index) => (
                   <span key={index} className="mc-category-tag">
-                    {getCategoryName(category)}
+                    {category}
                   </span>
                 ))}
               </div>

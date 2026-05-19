@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaBars,
@@ -12,30 +12,94 @@ import SearchBar from "../../SearchBar/SearchBar";
 import Button from "../../Button/Button";
 import ThemeToggle from "../../../ThemeToggle/ThemeToggle";
 import {
+  decryptedUserData,
+  getAvatarUrl,
   getUserSingleInfo,
   isAuthenticated,
   logout,
 } from "../../../../utils/auth";
+import userService from "../../../../services/userService";
 
 function Header({ toggleSidebar }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userLogin, setUserLogin] = useState({});
+  const dropdownRef = useRef(null);
+  const defaultAvatar =
+    "https://ui-avatars.com/api/?name=User&background=random&size=150";
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    const loadUser = async () => {
+      if (!isAuthenticated()) {
+        setIsLoggedIn(false);
+        setUserLogin({});
+        return;
+      }
+
       setIsLoggedIn(true);
+
+      const localUser = decryptedUserData() || {};
       setUserLogin({
-        avatar: getUserSingleInfo("avatar"),
-        username: getUserSingleInfo("username"),
-        email: getUserSingleInfo("email"),
+        ...localUser,
+        avatar: getAvatarUrl(localUser.avatar),
       });
-    }
+
+      const userId = localUser._id || getUserSingleInfo("_id");
+      if (!userId) return;
+
+      try {
+        const freshUser = await userService.getUserById(userId);
+        if (freshUser) {
+          setUserLogin({
+            ...freshUser,
+            avatar: getAvatarUrl(freshUser.avatar),
+          });
+        }
+      } catch (error) {
+        console.error("Error refreshing header user:", error);
+      }
+    };
+
+    loadUser();
+
+    const handleUserUpdated = (event) => {
+      const updatedUser = event.detail || decryptedUserData() || {};
+      setIsLoggedIn(Boolean(updatedUser._id));
+      setUserLogin({
+        ...updatedUser,
+        avatar: getAvatarUrl(updatedUser.avatar),
+      });
+    };
+
+    window.addEventListener("user-updated", handleUserUpdated);
+    return () => window.removeEventListener("user-updated", handleUserUpdated);
   }, []);
 
-  const handleSearch = (query) => {
-    console.log("Searching for:", query);
-  };
+  useEffect(() => {
+    if (!showDropdown) return;
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [showDropdown]);
+
+  const handleSearch = () => {};
 
   const handleLogout = () => {
     logout();
@@ -46,7 +110,11 @@ function Header({ toggleSidebar }) {
   return (
     <header className="header">
       <div className="header-left">
-        <button className="menu-toggle" onClick={toggleSidebar}>
+        <button
+          className="menu-toggle"
+          onClick={toggleSidebar}
+          aria-label="Mở menu"
+        >
           <FaBars />
         </button>
         <Link to="/" className="logo">
@@ -60,12 +128,22 @@ function Header({ toggleSidebar }) {
         <ThemeToggle />
         {isLoggedIn ? (
           <>
-            <div className="user-profile">
+            <div className="user-profile" ref={dropdownRef}>
               <button
                 className="avatar-btn"
                 onClick={() => setShowDropdown(!showDropdown)}
+                aria-label="Mở menu tài khoản"
+                aria-expanded={showDropdown}
               >
-                <img src={userLogin?.avatar} alt="Avatar" />
+                <img
+                  src={getAvatarUrl(userLogin?.avatar) || defaultAvatar}
+                  alt="User avatar"
+                  className="header-avatar"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = defaultAvatar;
+                  }}
+                />
               </button>
 
               {showDropdown && (

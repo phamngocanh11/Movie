@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,21 @@ import "swiper/css/a11y";
 const MovieSection = ({ title, linkTo, movies, variant = "default" }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const uniqueMovies = useMemo(() => {
+    const seen = new Set();
+
+    return (movies || []).filter((movie, index) => {
+      const identity = movie?._id || movie?.id || movie?.slug || movie?.name;
+      const key = identity ? String(identity) : `movie-${index}`;
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    });
+  }, [movies]);
 
   return (
     <section className="movie-section">
@@ -66,8 +81,10 @@ const MovieSection = ({ title, linkTo, movies, variant = "default" }) => {
             },
           }}
         >
-          {movies.map((movie) => (
-            <SwiperSlide key={movie.slug}>
+          {uniqueMovies.map((movie, index) => (
+            <SwiperSlide
+              key={`${movie?._id || movie?.id || movie?.slug || title}-${index}`}
+            >
               <MovieCard movie={movie} variant={variant} />
             </SwiperSlide>
           ))}

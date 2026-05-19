@@ -1,6 +1,6 @@
 .movie-section {
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 28px;
   position: relative;
 }
 
@@ -8,17 +8,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--border-color);
 }
 
 .section-title {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 800;
   color: var(--text-primary) !important;
   margin: 0;
   position: relative;
+  letter-spacing: 0.01em;
 }
 
 .section-title::after {
@@ -27,7 +28,7 @@
   left: 0;
   bottom: -12px;
   width: 40px;
-  height: 3px;
+  height: 2px;
   background: var(--accent-color);
   transition: width 0.3s ease;
 }
@@ -88,7 +89,15 @@
 }
 
 .movie-swiper .swiper-wrapper {
-  gap: 10px !important;
+  gap: 4px !important;
+}
+
+[data-theme="light"] .section-title {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .section-title::after {
+  background: #e94560;
 }
 
 @media (max-width: 1400px) {
@@ -110,15 +119,11 @@
 
 @media (max-width: 992px) {
   .movie-section {
-    margin-bottom: 40px;
-  }
-
-  .section-title {
-    font-size: 22px;
+    margin-bottom: 26px;
   }
 
   .section-title::after {
-    height: 2.5px;
+    height: 2px;
   }
 
   .movie-slider-container {
@@ -129,7 +134,7 @@
 
 @media (max-width: 768px) {
   .movie-section {
-    margin-bottom: 35px;
+    margin-bottom: 24px;
   }
 
   .section-header {
@@ -172,11 +177,7 @@
 
 @media (max-width: 576px) {
   .movie-section {
-    margin-bottom: 30px;
-  }
-
-  .section-title {
-    font-size: 18px;
+    margin-bottom: 22px;
   }
 
   .section-header {
@@ -189,15 +190,11 @@
 }
 
 @media (max-width: 480px) {
-  .section-title {
-    font-size: 16px;
-  }
-
   .see-all span {
     font-size: 12px;
   }
 
   .movie-section {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 }

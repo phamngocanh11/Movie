@@ -10,7 +10,7 @@ export const useFavorite = () => useContext(FavoriteContext);
 export const FavoriteProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isReloading, setIsReloading] = useState(false);
+
 
   const loadFavorites = async () => {
     if (!isAuthenticated()) {
@@ -19,19 +19,19 @@ export const FavoriteProvider = ({ children }) => {
     }
 
     try {
-      setIsReloading(true);
+
       const userId = getUserSingleInfo("_id");
       const response = await userService.getUserFavorites(userId);
 
-      if (response && response.success && Array.isArray(response)) {
+      if (response && response.success && Array.isArray(response.data)) {
         const favoriteIds = response.data.map((movie) =>
-          typeof movie === "object" ? movie._id : movie
+          typeof movie === "object" ? movie._id : movie,
         );
         setFavorites(favoriteIds);
       } else if (response && Array.isArray(response)) {
         // Handle old response format for backward compatibility
         const favoriteIds = response.map((movie) =>
-          typeof movie === "object" ? movie._id : movie
+          typeof movie === "object" ? movie._id : movie,
         );
         setFavorites(favoriteIds);
       } else {
@@ -44,7 +44,7 @@ export const FavoriteProvider = ({ children }) => {
       setFavorites([]);
     } finally {
       setLoading(false);
-      setIsReloading(false);
+
     }
   };
 

@@ -7,7 +7,7 @@ import {
   FaClock,
   FaCheckCircle,
 } from "react-icons/fa";
-import Moment from 'react-moment';
+
 import "./WatchHistory.css";
 import Button from "../../UI/Button/Button";
 

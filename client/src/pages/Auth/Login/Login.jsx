@@ -7,6 +7,7 @@ import Button from "../../../components/UI/Button/Button";
 import userService from "../../../services/userService";
 import { toast } from "sonner";
 import { encryptedUserData, getRoleAfterLogin } from "../../../utils/auth";
+import GoogleLoginButton from "../../../components/Auth/GoogleLoginButton/GoogleLoginButton";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -38,9 +39,9 @@ function Login() {
     if (Object.keys(validErrors).length === 0) {
       try {
         const response = await userService.login(formData);
-        toast.success("Đăng nhập thành công", response.message);
+        toast.success(response?.message || "Đăng nhập thành công");
 
-        encryptedUserData(response, formData);
+        encryptedUserData(response);
         const role = getRoleAfterLogin(response);
         navigate(role);
       } catch (error) {
@@ -56,7 +57,11 @@ function Login() {
   return (
     <AuthLayout>
       <div className="login-container">
-        <h2 className="login-title">Đăng nhập</h2>
+        <div className="auth-header-text">
+          <h2 className="login-title">Chào mừng trở lại</h2>
+          <p className="login-subtitle">Đăng nhập để tiếp tục trải nghiệm</p>
+        </div>
+        
         <form
           className="login-form"
           onSubmit={handleSubmit}
@@ -94,6 +99,8 @@ function Login() {
           <Button type="submit" variant="primary" fullWidth>
             Đăng nhập
           </Button>
+
+          <GoogleLoginButton actionText="signin_with" />
 
           <div className="register-link">
             Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>

@@ -1,9 +1,9 @@
 .hero-section {
   position: relative;
-  height: 70vh;
+  height: 68vh;
   min-height: 450px;
   max-height: 800px;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   margin-left: -20px;
   margin-right: -20px;
   overflow: hidden;
@@ -40,14 +40,35 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to top,
-    var(--bg-primary) 0%,
-    rgba(0, 0, 0, 0.8) 30%,
-    rgba(0, 0, 0, 0.6) 60%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.55) 42%,
+      rgba(0, 0, 0, 0.22) 100%
+    ),
+    linear-gradient(
+      to top,
+      var(--bg-primary) 0%,
+      rgba(0, 0, 0, 0.76) 28%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
   z-index: 1;
+}
+
+[data-theme="light"] .hero-backdrop::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.78) 0%,
+      rgba(15, 23, 42, 0.42) 45%,
+      rgba(15, 23, 42, 0.16) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(246, 247, 251, 1) 0%,
+      rgba(246, 247, 251, 0) 35%
+    );
 }
 
 .hero-content {
@@ -61,7 +82,7 @@
 }
 
 .hero-info {
-  max-width: 580px;
+  max-width: 520px;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease forwards 0.3s;
@@ -75,12 +96,21 @@
   }
 }
 
+.hero-eyebrow {
+  color: var(--accent-color);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
 .trending-badge {
   display: inline-block;
   background-color: var(--accent-color);
   color: var(--text-primary);
   padding: 6px 16px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 15px;
@@ -89,19 +119,29 @@
 }
 
 .movie-title {
-  font-size: 3.2rem;
-  font-weight: 700;
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  font-weight: 850;
   margin-bottom: 15px;
-  line-height: 1.1;
+  line-height: 0.98;
   color: var(--text-primary);
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .hero-section .movie-title,
+[data-theme="light"] .hero-section .movie-description,
+[data-theme="light"] .hero-section .movie-meta {
+  color: #ffffff;
+}
+
+[data-theme="light"] .hero-section .hero-eyebrow {
+  color: #ff8fa1;
 }
 
 .movie-meta {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   color: var(--text-primary);
   font-size: 16px;
   flex-wrap: wrap;
@@ -112,7 +152,7 @@
   margin-bottom: 25px;
   font-size: 16px;
   line-height: 1.6;
-  max-width: 65%;
+  max-width: 92%;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -124,6 +164,25 @@
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
+}
+
+.hero-buttons .btn-primary {
+  min-height: 46px;
+  padding: 0 22px;
+  background: linear-gradient(135deg, var(--accent-color), #b20710);
+  box-shadow: 0 14px 32px rgba(229, 9, 20, 0.36);
+}
+
+.hero-buttons .btn-primary:hover {
+  box-shadow: 0 18px 40px rgba(229, 9, 20, 0.44);
+}
+
+.hero-buttons .btn-secondary {
+  min-height: 46px;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  box-shadow: none;
 }
 
 .watch-link {
@@ -285,14 +344,14 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    height: 55vh;
+    height: 56vh;
     min-height: 380px;
-    border-radius: 12px;
-    margin-bottom: 30px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
   }
 
   .movie-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 10px;
   }
 
@@ -306,6 +365,8 @@
     font-size: 14px;
     margin-bottom: 18px;
     line-height: 1.4;
+    max-width: 92%;
+    -webkit-line-clamp: 2;
   }
 
   .hero-buttons {
@@ -322,21 +383,26 @@
   }
 
   .hero-backdrop::after {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.75) 60%,
-      rgba(0, 0, 0, 0.6) 100%
-    );
+    background:
+      linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.78) 52%,
+        rgba(0, 0, 0, 0.38) 100%
+      );
   }
 }
 
 @media (max-width: 576px) {
   .hero-section {
-    height: 65vh;
+    height: 58vh;
     min-height: 350px;
-    border-radius: 10px;
-    margin-bottom: 25px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+  }
+
+  .hero-info {
+    max-width: 100%;
   }
 
   .hero-content {
@@ -355,7 +421,7 @@
   }
 
   .movie-title {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
   }
 
   .trending-badge {

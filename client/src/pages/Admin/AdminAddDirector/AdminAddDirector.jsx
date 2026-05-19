@@ -9,7 +9,7 @@ import "./AdminAddDirector.css";
 
 function AdminAddDirector() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formFields = [
@@ -27,7 +27,7 @@ function AdminAddDirector() {
     
     try {
       setIsSubmitting(true);
-      setLoading(true);
+
       
       const response = await directorService.createDirector(formData);
       
@@ -41,7 +41,7 @@ function AdminAddDirector() {
       console.error("Error creating director:", error);
       toast.error(`Lỗi: ${error.message || "Không thể thêm đạo diễn"}`);
     } finally {
-      setLoading(false);
+
       setIsSubmitting(false);
     }
   };

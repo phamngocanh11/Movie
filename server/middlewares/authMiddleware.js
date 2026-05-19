@@ -1,21 +1,30 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
 
   if (!token) {
-    return res.status(401).json({ message: "Không có token" });
+    return res.status(401).json({ success: false, message: "Không có token" });
+  }
+
+  if (!process.env.JWT_SECRET) {
+    return res.status(500).json({
+      success: false,
+      message: "JWT_SECRET is not configured",
+    });
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "your-secret-key",
-    );
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(403).json({ message: "Token không hợp lệ" });
+    return res
+      .status(403)
+      .json({ success: false, message: "Token không hợp lệ" });
   }
 };
 

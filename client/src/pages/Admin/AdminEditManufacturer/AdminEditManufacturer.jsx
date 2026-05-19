@@ -23,6 +23,7 @@ function AdminEditManufacturer() {
       setError("ID nhà sản xuất không hợp lệ");
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchManufacturerDetails = async () => {

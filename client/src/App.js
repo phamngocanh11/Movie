@@ -38,15 +38,23 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import MoviePlayer from "./pages/MoviePlayer/MoviePlayer";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
+import VerifyEmail from "./pages/Auth/VerifyEmail/VerifyEmail";
+import AdvancedSearch from "./components/AdvancedSearch/AdvancedSearch";
+import UserLayout from "./layouts/UserLayout/UserLayout";
 
 function App() {
   return (
     <ThemeProvider>
       <FavoriteProvider>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/" element={<Home />} />
 
             <Route element={<ProtectedRoute />}>
@@ -54,7 +62,10 @@ function App() {
               <Route path="/admin/movies" element={<AdminMovies />} />
               <Route path="/admin/movies/add" element={<AdminAddMovie />} />
               <Route path="/admin/movies/:id" element={<AdminMovieDetail />} />
-              <Route path="/admin/movies/edit/:id" element={<AdminMovieEdit />} />
+              <Route
+                path="/admin/movies/edit/:id"
+                element={<AdminMovieEdit />}
+              />
               <Route path="/admin/users" element={<AdminUser />} />
               <Route path="/admin/users/add" element={<AdminAddUser />} />
               <Route path="/admin/users/:id" element={<AdminUserDetail />} />
@@ -89,7 +100,10 @@ function App() {
                 element={<AdminEditManufacturer />}
               />
               <Route path="/admin/directors" element={<AdminDirector />} />
-              <Route path="/admin/directors/add" element={<AdminAddDirector />} />
+              <Route
+                path="/admin/directors/add"
+                element={<AdminAddDirector />}
+              />
               <Route
                 path="/admin/directors/:id"
                 element={<AdminDirectorDetail />}
@@ -101,12 +115,23 @@ function App() {
               <Route path="/admin/actors" element={<AdminActor />} />
               <Route path="/admin/actors/add" element={<AdminAddActor />} />
               <Route path="/admin/actors/:id" element={<AdminActorDetail />} />
-              <Route path="/admin/actors/edit/:id" element={<AdminEditActor />} />
+              <Route
+                path="/admin/actors/edit/:id"
+                element={<AdminEditActor />}
+              />
             </Route>
 
             <Route path="/profile" element={<Profile />} />
 
             <Route path="/movies" element={<MoviesPage />} />
+            <Route
+              path="/advanced-search"
+              element={
+                <UserLayout>
+                  <AdvancedSearch />
+                </UserLayout>
+              }
+            />
             <Route path="/category/:slug" element={<CategoryPage />} />
             <Route path="/movie/:slug" element={<MovieDetail />} />
             <Route path="/watch/:slug" element={<MoviePlayer />} />

@@ -4,25 +4,52 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import "./Footer.css";
 
 function Footer() {
+  const socialLinks = [
+    {
+      label: "Facebook",
+      href: "https://facebook.com",
+      icon: <FaFacebookF />,
+    },
+    {
+      label: "Twitter",
+      href: "https://twitter.com",
+      icon: <FaTwitter />,
+    },
+    {
+      label: "Instagram",
+      href: "https://instagram.com",
+      icon: <FaInstagram />,
+    },
+    {
+      label: "YouTube",
+      href: "https://youtube.com",
+      icon: <FaYoutube />,
+    },
+  ];
+
   return (
     <footer className="footer">
       <div className="footer-content">
-        <div className="footer-section">
-          <h4>Movie</h4>
-          <p>Trang web xem phim trực tuyến chất lượng cao.</p>
+        <div className="footer-section footer-brand">
+          <Link to="/" className="footer-logo" aria-label="Movie home">
+            Movie
+          </Link>
+          <p>
+            Khám phá phim mới, lưu danh sách yêu thích và tiếp tục xem ở bất kỳ
+            đâu.
+          </p>
           <div className="social-links">
-            <Link href="#" target="_blank" rel="noopener noreferrer">
-              <FaFacebookF />
-            </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer">
-              <FaTwitter />
-            </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer">
-              <FaInstagram />
-            </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer">
-              <FaYoutube />
-            </Link>
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
         </div>
 

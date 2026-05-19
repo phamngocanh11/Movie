@@ -1,11 +1,19 @@
 import api from "../config/api";
 
+const normalizeErrorMessage = (error) => {
+  return (
+    error?.response?.data?.message ||
+    error?.response?.data?.error ||
+    "Lỗi khi gọi API!"
+  );
+};
+
 const register = async (userData) => {
   try {
     const response = await api.post("/api/users/register", userData);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -14,16 +22,29 @@ const login = async (userData) => {
     const response = await api.post("/api/users/login", userData);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
+  }
+};
+
+const googleLogin = async (credential) => {
+  try {
+    const response = await api.post("/api/users/google-login", { credential });
+    return response.data;
+  } catch (error) {
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
 const getAllUser = async () => {
   try {
     const response = await api.get("/api/users");
-    return response.data;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -32,27 +53,28 @@ const deleteUser = async (id) => {
     const response = await api.delete(`/api/users/delete/${id}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
 const getUserById = async (id) => {
   try {
     const response = await api.get(`/api/users/${id}`);
-    return response.data;
+    const payload = response.data || {};
+    return payload.data || null;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
 const changePassword = async (userId, newPassword) => {
   try {
     const response = await api.post(`/api/users/update/password/${userId}`, {
-      newPassword: newPassword,
+      newPassword,
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -60,27 +82,28 @@ const updateUser = async (userId, userData) => {
   try {
     if (userData.avatar instanceof File) {
       const formData = new FormData();
-      
-      formData.append('avatar', userData.avatar);
-      
-      Object.keys(userData).forEach(key => {
-        if (key !== 'avatar') {
+
+      formData.append("avatar", userData.avatar);
+
+      Object.keys(userData).forEach((key) => {
+        if (key !== "avatar") {
           formData.append(key, userData[key]);
         }
       });
-      
+
       const response = await api.put(`/api/users/update/${userId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-      return response.data;
-    } else {
-      const response = await api.put(`/api/users/update/${userId}`, userData);
+
       return response.data;
     }
+
+    const response = await api.put(`/api/users/update/${userId}`, userData);
+    return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -88,36 +111,37 @@ const createUser = async (userData) => {
   try {
     if (userData.avatar instanceof File) {
       const formData = new FormData();
-      
-      formData.append('avatar', userData.avatar);
-      
-      Object.keys(userData).forEach(key => {
-        if (key !== 'avatar') {
+
+      formData.append("avatar", userData.avatar);
+
+      Object.keys(userData).forEach((key) => {
+        if (key !== "avatar") {
           formData.append(key, userData[key]);
         }
       });
-      
+
       const response = await api.post(`/api/users/register`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
       return response.data;
-    } else {
-      const response = await api.post(`/api/users/register`, userData);
-      return response.data;
     }
+
+    const response = await api.post(`/api/users/register`, userData);
+    return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
 const getUserByInfo = async (username) => {
   try {
     const response = await api.get(`/api/users/info/${username}`);
-    return response.data;
+    const payload = response.data || {};
+    return payload.data || null;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -142,7 +166,7 @@ const addFavorite = async (userId, movieId) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -154,7 +178,7 @@ const removeFavorite = async (userId, movieId) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -163,7 +187,7 @@ const isFavorite = async (userId, movieId) => {
     const response = await api.get(`/api/users/favorite/${userId}/${movieId}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -172,7 +196,16 @@ const forgotPassword = async (data) => {
     const response = await api.post("/api/users/forgotpassword", data);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
+  }
+};
+
+const resetPassword = async (data) => {
+  try {
+    const response = await api.post("/api/users/reset-password", data);
+    return response.data;
+  } catch (error) {
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
@@ -183,7 +216,7 @@ const addWatchHistory = async (userId, movieId, watchInfo = {}) => {
       movieId,
       currentTime: watchInfo.currentTime || 0,
       duration: watchInfo.duration || 0,
-      percentWatched: watchInfo.percentWatched || 0
+      percentWatched: watchInfo.percentWatched || 0,
     });
     return response.data;
   } catch (error) {
@@ -202,29 +235,54 @@ const getUserFavorites = async (userId) => {
   }
 };
 
+const getContinueWatching = async (userId, limit = 10) => {
+  try {
+    const response = await api.get(
+      `/api/movie-watched/user/${userId}/continue-watching?limit=${limit}`,
+    );
+
+    const payload = response.data || {};
+    return payload.data || [];
+  } catch (error) {
+    console.error("Error getting continue watching:", error);
+    return [];
+  }
+};
+
 const getWatchHistory = async (userId, movieId) => {
   try {
-    const response = await api.get(`/api/movie-watched/user/${userId}/movie/${movieId}`);
-    return response.data;
+    const response = await api.get(
+      `/api/movie-watched/user/${userId}/movie/${movieId}`,
+    );
+    const payload = response.data || {};
+
+    return {
+      ...payload,
+      found: payload.found ?? false,
+      data: payload.data || null,
+    };
   } catch (error) {
     console.log("No watch history found or error:", error);
-    return { found: false };
+    return { found: false, data: null };
   }
 };
 
 const resetWatchHistory = async (userId, movieId) => {
   try {
-    const response = await api.put(`/api/movie-watched/reset/${userId}/${movieId}`);
+    const response = await api.put(
+      `/api/movie-watched/reset/${userId}/${movieId}`,
+    );
     return response.data;
   } catch (error) {
     console.error("Error resetting watch history:", error);
-    throw new Error(error.response?.data?.error || "Lỗi khi gọi API!");
+    throw new Error(normalizeErrorMessage(error));
   }
 };
 
 const userService = {
   register,
   login,
+  googleLogin,
   getAllUser,
   deleteUser,
   getUserById,
@@ -236,11 +294,13 @@ const userService = {
   removeFavorite,
   isFavorite,
   forgotPassword,
+  resetPassword,
   createUser,
   addWatchHistory,
   getUserFavorites,
+  getContinueWatching,
   getWatchHistory,
-  resetWatchHistory
+  resetWatchHistory,
 };
 
 export default userService;

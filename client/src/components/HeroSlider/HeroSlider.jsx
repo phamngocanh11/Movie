@@ -14,18 +14,8 @@ import "swiper/css/effect-fade";
 import Button from "../UI/Button/Button";
 
 const HeroSlider = ({ movies }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { checkIsFavorite, toggleFavorite: toggleFavoriteContext } = useFavorite();
   const [favoriteStatus, setFavoriteStatus] = useState({});
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     if (isAuthenticated() && movies.length > 0) {
@@ -89,6 +79,7 @@ const HeroSlider = ({ movies }) => {
                   {movie.isTrending && (
                     <div className="trending-badge">Hot</div>
                   )}
+                  <div className="hero-eyebrow">Now streaming</div>
                   <h1 className="movie-title">{movie.name}</h1>
                   <div className="movie-meta">
                     <span className="movie-year">{movie.year}</span>

@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { uploadCloud } = require("../config/cloudinary");
+const { uploadAvatarCloud } = require("../config/cloudinary");
 const { verifyToken } = require("../middlewares/authMiddleware");
+const {
+  requireAdmin,
+  requireSelfOrAdminByParam,
+  requireSelfOrAdminByBody,
+} = require("../middlewares/roleMiddleware");
 const {
   isFavorite,
   getAllUser,
@@ -16,12 +21,14 @@ const {
   addFavorite,
   removeFavorite,
   forgotPassword,
+  resetPassword,
   updateUser,
   getUserFavorites,
   logout,
   verifyEmail,
   resendVerificationEmail,
   checkEmailVerificationStatus,
+  googleLogin,
 } = require("../controllers/userController");
 
 /**
@@ -78,7 +85,7 @@ router.post("/login", login);
  *       400:
  *         description: Invalid input or user exists
  */
-router.post("/register", register);
+router.post("/register", uploadAvatarCloud.single("avatar"), register);
 
 /**
  * @swagger
@@ -168,20 +175,24 @@ router.post("/logout", verifyToken, logout);
  * @swagger
  * /api/users:
  *   get:
- *     summary: Get all users
+ *     summary: Get all users (Admin only)
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of users
  */
-router.get("/", getAllUser);
+router.get("/", verifyToken, requireAdmin, getAllUser);
 
 /**
  * @swagger
  * /api/users/{id}:
  *   get:
- *     summary: Get user by ID
+ *     summary: Get user by ID (Self or Admin)
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -194,14 +205,16 @@ router.get("/", getAllUser);
  *       404:
  *         description: User not found
  */
-router.get("/:id", getUserById);
+router.get("/:id", verifyToken, requireSelfOrAdminByParam("id"), getUserById);
 
 /**
  * @swagger
  * /api/users/delete/{id}:
  *   delete:
- *     summary: Delete user
+ *     summary: Delete user (Admin only)
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,10 +224,8 @@ router.get("/:id", getUserById);
  *     responses:
  *       200:
  *         description: User deleted
- *       404:
- *         description: User not found
  */
-router.delete("/delete/:id", deleteUser);
+router.delete("/delete/:id", verifyToken, requireAdmin, deleteUser);
 
 /**
  * @swagger
@@ -240,85 +251,76 @@ router.get("/info/:username", getUserByUsername);
  * @swagger
  * /api/users/update/{id}:
  *   put:
- *     summary: Update user profile
+ *     summary: Update user profile (Self or Admin)
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               avatar:
- *                 type: string
- *                 format: binary
  *     responses:
  *       200:
  *         description: User updated
  */
-router.put("/update/:id", uploadCloud.single("avatar"), updateUser);
+router.put(
+  "/update/:id",
+  verifyToken,
+  requireSelfOrAdminByParam("id"),
+  uploadAvatarCloud.single("avatar"),
+  updateUser,
+);
+
+router.post("/google-login", googleLogin);
 
 /**
  * @swagger
  * /api/users/add-favorite:
  *   post:
- *     summary: Add movie to favorites
+ *     summary: Add movie to favorites (Self or Admin)
  *     tags: [Favorites]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               userId:
- *                 type: string
- *               movieId:
- *                 type: string
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Added to favorites
  */
-router.post("/add-favorite", addFavorite);
+router.post(
+  "/add-favorite",
+  verifyToken,
+  requireSelfOrAdminByBody("userId"),
+  addFavorite,
+);
 
 /**
  * @swagger
  * /api/users/remove-favorite:
  *   post:
- *     summary: Remove movie from favorites
+ *     summary: Remove movie from favorites (Self or Admin)
  *     tags: [Favorites]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               userId:
- *                 type: string
- *               movieId:
- *                 type: string
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Removed from favorites
  */
-router.post("/remove-favorite", removeFavorite);
+router.post(
+  "/remove-favorite",
+  verifyToken,
+  requireSelfOrAdminByBody("userId"),
+  removeFavorite,
+);
 
 /**
  * @swagger
  * /api/users/favorite/{userId}/{movieId}:
  *   get:
- *     summary: Check if movie is favorite
+ *     summary: Check favorite status (Self or Admin)
  *     tags: [Favorites]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -334,14 +336,21 @@ router.post("/remove-favorite", removeFavorite);
  *       200:
  *         description: Favorite status
  */
-router.get("/favorite/:userId/:movieId", isFavorite);
+router.get(
+  "/favorite/:userId/:movieId",
+  verifyToken,
+  requireSelfOrAdminByParam("userId"),
+  isFavorite,
+);
 
 /**
  * @swagger
  * /api/users/favorites/{userId}:
  *   get:
- *     summary: Get user's favorite movies
+ *     summary: Get user favorites (Self or Admin)
  *     tags: [Favorites]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -352,57 +361,56 @@ router.get("/favorite/:userId/:movieId", isFavorite);
  *       200:
  *         description: List of favorite movies
  */
-router.get("/favorites/:userId", getUserFavorites);
+router.get(
+  "/favorites/:userId",
+  verifyToken,
+  requireSelfOrAdminByParam("userId"),
+  getUserFavorites,
+);
 
 /**
  * @swagger
  * /api/users/watch:
  *   post:
- *     summary: Mark movie as watched
+ *     summary: Mark movie as watched (Self or Admin)
  *     tags: [WatchHistory]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               userId:
- *                 type: string
- *               movieId:
- *                 type: string
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Movie marked as watched
  */
-router.post("/watch", watchMovie);
+router.post(
+  "/watch",
+  verifyToken,
+  requireSelfOrAdminByBody("userId"),
+  watchMovie,
+);
 
 /**
  * @swagger
  * /api/users/update/password/{id}:
  *   post:
- *     summary: Change password
+ *     summary: Change password (Self or Admin)
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               newPassword:
- *                 type: string
  *     responses:
  *       200:
  *         description: Password changed
  */
-router.post("/update/password/:id", changePassword);
+router.post(
+  "/update/password/:id",
+  verifyToken,
+  requireSelfOrAdminByParam("id"),
+  changePassword,
+);
 
 /**
  * @swagger
@@ -428,5 +436,14 @@ router.post("/update/password/:id", changePassword);
  *         description: User not found
  */
 router.post("/forgotpassword", forgotPassword);
+
+/**
+ * @swagger
+ * /api/users/reset-password:
+ *   post:
+ *     summary: Reset password with token
+ *     tags: [Auth]
+ */
+router.post("/reset-password", resetPassword);
 
 module.exports = router;

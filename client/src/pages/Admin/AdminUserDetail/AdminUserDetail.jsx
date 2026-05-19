@@ -29,19 +29,21 @@ function AdminUserDetail() {
   const [watchedMovies, setWatchedMovies] = useState([]);
   const [comments, setComments] = useState([]);
   const [ratingCount, setRatingCount] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [avgRating, setAvgRating] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchUserData = async () => {
     try {
       setLoading(true);
       const response = await userService.getUserById(id);
-      
+
       let userData = null;
       if (response && response.data) {
         userData = response.data;
@@ -52,15 +54,14 @@ function AdminUserDetail() {
         setLoading(false);
         return;
       }
-      
+
       setUser(userData);
-      
+
       await Promise.all([
         fetchUserComments(userData),
         fetchUserFavorites(userData),
-        fetchUserWatchedMovies(userData)
+        fetchUserWatchedMovies(userData),
       ]);
-      
     } catch (err) {
       console.error("Error fetching user:", err);
       setError("Không thể tải thông tin người dùng. Vui lòng thử lại sau.");
@@ -71,24 +72,28 @@ function AdminUserDetail() {
 
   const fetchUserComments = async (userData) => {
     if (!userData?._id) return;
-    
+
     try {
-      const commentsResponse = await commentService.getCommentsByUserId(userData._id);
-      
-      const commentsData = commentsResponse?.data?.length 
-        ? commentsResponse.data 
-        : Array.isArray(commentsResponse) 
-          ? commentsResponse 
-          : [];
-      
+      const commentsResponse = await commentService.getCommentsByUserId(
+        userData._id,
+      );
+      const commentsData = Array.isArray(commentsResponse)
+        ? commentsResponse
+        : [];
+
       setComments(commentsData);
-      
+
       if (commentsData.length > 0) {
-        const commentWithRating = commentsData.filter(comment => comment.rate > 0);
+        const commentWithRating = commentsData.filter(
+          (comment) => comment.rate > 0,
+        );
         setRatingCount(commentWithRating.length);
-        
+
         if (commentWithRating.length > 0) {
-          const totalRating = commentWithRating.reduce((sum, comment) => sum + comment.rate, 0);
+          const totalRating = commentWithRating.reduce(
+            (sum, comment) => sum + comment.rate,
+            0,
+          );
           setAvgRating(totalRating / commentWithRating.length);
         }
       }
@@ -102,12 +107,14 @@ function AdminUserDetail() {
 
   const fetchUserFavorites = async (userData) => {
     if (!userData?._id) return;
-    
+
     try {
-      const favoritesResponse = await userService.getUserFavorites(userData._id);
-      
+      const favoritesResponse = await userService.getUserFavorites(
+        userData._id,
+      );
+
       if (favoritesResponse?.success && Array.isArray(favoritesResponse.data)) {
-        await fetchAndProcessMovies(favoritesResponse.data, 'favorites');
+        await fetchAndProcessMovies(favoritesResponse.data, "favorites");
       } else if (userData.favourite && Array.isArray(userData.favourite)) {
         await fetchFavoriteMovies(userData.favourite);
       } else {
@@ -138,11 +145,11 @@ function AdminUserDetail() {
 
   const fetchAndProcessMovies = async (movies, type) => {
     if (!movies || !movies.length) return;
-    
+
     const processedMovies = await Promise.all(
       movies.map(async (movie) => {
         try {
-          if (typeof movie === 'object' && movie._id) {
+          if (typeof movie === "object" && movie._id) {
             return {
               id: movie._id,
               title: movie.name,
@@ -150,13 +157,13 @@ function AdminUserDetail() {
               year: movie.year,
               rating: movie.rating || 0,
               ratingCount: movie.ratingCount || 0,
-              favoritedAt: movie.favoritedAt || new Date()
+              favoritedAt: movie.favoritedAt || new Date(),
             };
-          }
-          else {
-            const movieId = typeof movie === 'object' ? movie._id || movie.id : movie;
+          } else {
+            const movieId =
+              typeof movie === "object" ? movie._id || movie.id : movie;
             const movieResponse = await movieService.getMovieById(movieId);
-            
+
             if (movieResponse?.data) {
               return {
                 id: movieResponse.data._id,
@@ -166,7 +173,7 @@ function AdminUserDetail() {
                 rating: movieResponse.data.rating || 0,
                 ratingCount: movieResponse.data.ratingCount || 0,
                 favoritedAt: new Date(),
-                watchedAt: new Date()
+                watchedAt: new Date(),
               };
             }
           }
@@ -175,12 +182,12 @@ function AdminUserDetail() {
           console.error(`Error processing movie:`, err);
           return null;
         }
-      })
+      }),
     );
-    
-    const filteredMovies = processedMovies.filter(movie => movie !== null);
-    
-    if (type === 'favorites') {
+
+    const filteredMovies = processedMovies.filter((movie) => movie !== null);
+
+    if (type === "favorites") {
       setFavoriteMovies(filteredMovies);
     } else {
       setWatchedMovies(filteredMovies);
@@ -189,12 +196,12 @@ function AdminUserDetail() {
 
   const fetchFavoriteMovies = async (movieIds) => {
     if (!movieIds || !movieIds.length) return;
-    await fetchAndProcessMovies(movieIds, 'favorites');
+    await fetchAndProcessMovies(movieIds, "favorites");
   };
 
   const fetchWatchedMovies = async (movieIds) => {
     if (!movieIds || !movieIds.length) return;
-    await fetchAndProcessMovies(movieIds, 'watched');
+    await fetchAndProcessMovies(movieIds, "watched");
   };
 
   const handleManageAccount = () => {
@@ -209,7 +216,7 @@ function AdminUserDetail() {
         navigate("/admin/users");
       } catch (error) {
         toast.error(
-          "Xóa người dùng thất bại: " + (error.message || "Đã xảy ra lỗi")
+          "Xóa người dùng thất bại: " + (error.message || "Đã xảy ra lỗi"),
         );
       }
     }
@@ -222,17 +229,23 @@ function AdminUserDetail() {
       month: "2-digit",
       year: "numeric",
       hour: "2-digit",
-      minute: "2-digit"
+      minute: "2-digit",
     });
   };
 
   const renderHeaderActions = () => (
     <>
-      <button className="user-detail-action-btn manage-btn" onClick={handleManageAccount}>
+      <button
+        className="user-detail-action-btn manage-btn"
+        onClick={handleManageAccount}
+      >
         <MdShield />
         Quản lý tài khoản
       </button>
-      <button className="user-detail-action-btn delete-btn" onClick={handleDelete}>
+      <button
+        className="user-detail-action-btn delete-btn"
+        onClick={handleDelete}
+      >
         <MdDelete />
         Xóa
       </button>
@@ -240,8 +253,8 @@ function AdminUserDetail() {
   );
 
   const renderMovieItem = (movie, type) => (
-    <div 
-      key={movie.id} 
+    <div
+      key={movie.id}
       className="user-detail-movie"
       onClick={() => navigate(`/admin/movies/${movie.id}`)}
     >
@@ -255,7 +268,7 @@ function AdminUserDetail() {
           }}
         />
       </div>
-      
+
       <div className="user-detail-movie-info">
         <h4 className="user-detail-movie-title">{movie.title}</h4>
         <div className="user-detail-movie-meta">
@@ -264,10 +277,10 @@ function AdminUserDetail() {
           <div className="user-detail-movie-rating">
             <MdStar className="movie-rating-star" />
             <span className="movie-rating-value">
-              {movie.rating 
-                ? (typeof movie.rating === 'number' 
-                    ? movie.rating.toFixed(1) 
-                    : parseFloat(movie.rating).toFixed(1)) 
+              {movie.rating
+                ? typeof movie.rating === "number"
+                  ? movie.rating.toFixed(1)
+                  : parseFloat(movie.rating).toFixed(1)
                 : "0"}
               <span className="movie-rating-max">/5</span>
             </span>
@@ -277,10 +290,9 @@ function AdminUserDetail() {
           )}
         </div>
         <span className="user-detail-movie-meta">
-          {type === 'watched' 
+          {type === "watched"
             ? `Đã xem: ${formatDate(movie.watchedAt)}`
-            : `Thêm vào yêu thích: ${formatDate(movie.favoritedAt)}`
-          }
+            : `Thêm vào yêu thích: ${formatDate(movie.favoritedAt)}`}
         </span>
       </div>
     </div>
@@ -288,15 +300,15 @@ function AdminUserDetail() {
 
   const renderEmptyState = (type) => (
     <div className="user-detail-empty">
-      {type === 'watched' 
-        ? <MdMovieFilter className="user-detail-empty-icon" />
-        : <MdFavorite className="user-detail-empty-icon" />
-      }
+      {type === "watched" ? (
+        <MdMovieFilter className="user-detail-empty-icon" />
+      ) : (
+        <MdFavorite className="user-detail-empty-icon" />
+      )}
       <div className="user-detail-empty-text">
-        {type === 'watched'
+        {type === "watched"
           ? "Người dùng chưa xem phim nào"
-          : "Người dùng chưa có phim yêu thích nào"
-        }
+          : "Người dùng chưa có phim yêu thích nào"}
       </div>
     </div>
   );
@@ -344,28 +356,31 @@ function AdminUserDetail() {
                 alt={user.name}
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "https://via.placeholder.com/120x120?text=User";
+                  e.target.src =
+                    "https://via.placeholder.com/120x120?text=User";
                 }}
               />
             </div>
-            
+
             <div className="user-profile-info">
               <h2 className="user-name">{user.name}</h2>
               <p className="user-username">@{user.username}</p>
-              
+
               <div className="user-email">
                 <MdEmail />
                 <span>{user.email}</span>
               </div>
-              
-              <span className={`user-role-badge ${
-                user.role === "admin" ? "role-admin" : "role-user"
-              }`}>
+
+              <span
+                className={`user-role-badge ${
+                  user.role === "admin" ? "role-admin" : "role-user"
+                }`}
+              >
                 {user.role === "admin" ? "Quản trị viên" : "Người dùng"}
               </span>
             </div>
           </div>
-          
+
           <div className="user-profile-body">
             <div className="user-stats">
               <div className="user-stat-card">
@@ -374,70 +389,77 @@ function AdminUserDetail() {
                 </div>
                 <div className="user-stat-label">Phim đã xem</div>
               </div>
-              
+
               <div className="user-stat-card">
                 <div className="user-stat-value">
                   {favoriteMovies.length || 0}
                 </div>
                 <div className="user-stat-label">Phim yêu thích</div>
               </div>
-              
+
               <div className="user-stat-card">
-                <div className="user-stat-value">
-                  {ratingCount || 0}
-                </div>
+                <div className="user-stat-value">{ratingCount || 0}</div>
                 <div className="user-stat-label">Đánh giá</div>
               </div>
-              
+
               <div className="user-stat-card">
-                <div className="user-stat-value">
-                  {comments.length || 0}
-                </div>
+                <div className="user-stat-value">{comments.length || 0}</div>
                 <div className="user-stat-label">Bình luận</div>
               </div>
             </div>
-            
+
             <div className="user-detail-dates">
               <div className="user-detail-date">
                 <MdPersonAdd className="user-detail-date-icon" />
                 <span>Ngày tạo: {formatDate(user.createdAt)}</span>
               </div>
-              
+
               <div className="user-detail-date">
                 <MdAccessTime className="user-detail-date-icon" />
                 <span>Cập nhật: {formatDate(user.updatedAt)}</span>
               </div>
-              
+
               <div className="user-detail-date">
                 <MdCalendarToday className="user-detail-date-icon" />
-                <span>Hoạt động gần đây: {formatDate(user.lastActivity || user.updatedAt)}</span>
+                <span>
+                  Hoạt động gần đây:{" "}
+                  {formatDate(user.lastActivity || user.updatedAt)}
+                </span>
               </div>
             </div>
-            
+
             <div className="user-detail-section">
               <h3 className="user-detail-heading">
                 <MdLocalMovies />
                 Phim đã xem
               </h3>
-              
+
               {watchedMovies.length > 0 ? (
                 <div className="user-detail-list">
-                  {watchedMovies.map(movie => renderMovieItem(movie, 'watched'))}
+                  {watchedMovies.map((movie) =>
+                    renderMovieItem(movie, "watched"),
+                  )}
                 </div>
-              ) : renderEmptyState('watched')}
+              ) : (
+                renderEmptyState("watched")
+              )}
             </div>
-            
+
             <div className="user-detail-section">
               <h3 className="user-detail-heading">
                 <MdFavorite />
                 Phim yêu thích
               </h3>
-              
+
               {favoriteMovies.length > 0 ? (
                 <div className="user-detail-list">
-                  {favoriteMovies.map(movie => renderMovieItem(movie, 'favorite'))}
+                  {favoriteMovies.map((movie) =>
+                    renderMovieItem(movie, "favorite"),
+                  )}
                 </div>
-              ) : renderEmptyState('favorite')}
+              ) : (
+                renderEmptyState("favorite")
+              )}
             </div>
           </div>
         </div>

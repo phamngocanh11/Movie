@@ -9,6 +9,8 @@ const Button = ({
   fullWidth = false,
   disabled = false,
   hasIcon = false,
+  className = "",
+  ...props
 }) => {
   return (
     <button
@@ -16,8 +18,9 @@ const Button = ({
       onClick={onClick}
       className={`btn btn-${variant} ${fullWidth ? "btn-full" : ""} ${
         hasIcon ? "btn-with-icon" : ""
-      }`}
+      } ${className}`.trim()}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

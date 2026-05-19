@@ -1,65 +1,91 @@
 const Comment = require("../models/comment");
+const logger = require("../config/logger");
+const { successResponse, errorResponse } = require("../utils/apiResponse");
 
 const createComment = async (req, res) => {
   try {
-    const { movie, content, rate, user } = req.body;
-    
+    const { movie, content, rate } = req.body;
+    const user = req.user?.id;
+
+    if (!user) {
+      return errorResponse(res, "Unauthorized", 401);
+    }
+
     const comment = new Comment({ movie, content, rate, user });
     await comment.save();
-    
-    const savedComment = await Comment.findById(comment._id).populate('user', 'username avatar');
-    
-    res.status(201).json(savedComment);
+
+    const savedComment = await Comment.findById(comment._id).populate(
+      "user",
+      "username avatar",
+    );
+
+    return successResponse(res, savedComment, "Comment created", 201);
   } catch (error) {
-    console.error("Error creating comment:", error);
-    res.status(500).json({ error: error.message });
+    logger.error(`Error creating comment: ${error.message}`);
+    return errorResponse(res, error.message, 500);
   }
 };
 
 const deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    const comment = await Comment.findByIdAndDelete(id);
-    
+
+    const comment = await Comment.findById(id);
+
     if (!comment) {
-      return res.status(404).json({ error: "Bình luận không tồn tại" });
+      return errorResponse(res, "Bình luận không tồn tại", 404);
     }
-    
-    res.status(200).json({ message: "Bình luận đã được xóa thành công" });
+
+    const requesterId = req.user?.id;
+    const requesterRole = req.user?.role;
+
+    if (!requesterId) {
+      return errorResponse(res, "Unauthorized", 401);
+    }
+
+    if (
+      String(comment.user) !== String(requesterId) &&
+      requesterRole !== "admin"
+    ) {
+      return errorResponse(res, "Forbidden", 403);
+    }
+
+    await Comment.findByIdAndDelete(id);
+
+    return successResponse(res, {}, "Bình luận đã được xóa thành công");
   } catch (error) {
-    console.error("Lỗi khi xóa bình luận:", error);
-    res.status(500).json({ error: error.message });
+    logger.error(`Lỗi khi xóa bình luận: ${error.message}`);
+    return errorResponse(res, error.message, 500);
   }
 };
 
 const getCommentsByMovieId = async (req, res) => {
   try {
     const { movieId } = req.params;
-    
+
     const comments = await Comment.find({ movie: movieId })
-      .populate('user', 'username avatar')
+      .populate("user", "username avatar")
       .sort({ createdAt: -1 });
-      
-    res.status(200).json(comments);
+
+    return successResponse(res, comments, "Comments fetched");
   } catch (error) {
-    console.error("Error fetching comments:", error);
-    res.status(500).json({ error: error.message });
+    logger.error(`Error fetching comments: ${error.message}`);
+    return errorResponse(res, error.message, 500);
   }
 };
 
 const getCommentsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    
+
     const comments = await Comment.find({ user: userId })
-      .populate('movie', 'name poster_url')
+      .populate("movie", "name poster_url")
       .sort({ createdAt: -1 });
-      
-    res.status(200).json({ data: comments });
+
+    return successResponse(res, comments, "User comments fetched");
   } catch (error) {
-    console.error("Error fetching user comments:", error);
-    res.status(500).json({ error: error.message });
+    logger.error(`Error fetching user comments: ${error.message}`);
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -67,5 +93,5 @@ module.exports = {
   createComment,
   deleteComment,
   getCommentsByMovieId,
-  getCommentsByUserId
+  getCommentsByUserId,
 };

@@ -1,7 +1,7 @@
 .movie-card {
-  min-width: 200px;
-  flex: 0 0 200px;
-  border-radius: 12px;
+  min-width: 192px;
+  flex: 0 0 192px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition:
     transform 0.3s ease,
@@ -14,9 +14,9 @@
 
 /* Variant: Large - Cho phim nổi bật */
 .movie-card-large {
-  min-width: 280px;
-  flex: 0 0 280px;
-  border-radius: 16px;
+  min-width: 240px;
+  flex: 0 0 240px;
+  border-radius: var(--radius-xl);
 }
 
 .movie-card-large .card-title {
@@ -40,9 +40,9 @@
 
 /* Variant: Featured - Cho phim được yêu thích */
 .movie-card-featured {
-  min-width: 240px;
-  flex: 0 0 240px;
-  border-radius: 14px;
+  min-width: 212px;
+  flex: 0 0 212px;
+  border-radius: var(--radius-lg);
   border: 2px solid rgba(229, 9, 20, 0.2);
 }
 
@@ -69,9 +69,9 @@
 
 /* Variant: Compact - Cho danh sách dài */
 .movie-card-compact {
-  min-width: 160px;
-  flex: 0 0 160px;
-  border-radius: 10px;
+  min-width: 148px;
+  flex: 0 0 148px;
+  border-radius: var(--radius-md);
 }
 
 .movie-card-compact .card-title {
@@ -107,10 +107,29 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+[data-theme="light"] .movie-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .movie-card:hover,
+[data-theme="light"] .movie-card:focus-within {
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
+}
+
+[data-theme="light"] .card-title {
+  color: #111827;
+}
+
+[data-theme="light"] .card-meta {
+  color: #6b7280;
+}
+
 .movie-card:hover,
 .movie-card:focus-within {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px var(--card-shadow);
+  transform: translateY(-7px) scale(1.018);
+  box-shadow: 0 16px 32px var(--card-shadow);
 }
 
 [data-theme="dark"] .movie-card:hover,
@@ -154,7 +173,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.76) 0%,
+      rgba(0, 0, 0, 0.28) 52%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,8 +232,8 @@
 }
 
 .movie-rating {
-  top: -50px;
-  right: 0px;
+  top: 10px;
+  right: 10px;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
@@ -234,8 +259,40 @@
   color: var(--text-primary);
 }
 
+.continue-progress-wrapper {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 8px;
+  padding: 5px 7px;
+}
+
+.continue-progress-text {
+  color: #fff;
+  font-size: 10px;
+  margin-bottom: 3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.continue-progress-bar-bg {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.continue-progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent-color);
+}
+
 .movie-card-info {
-  padding: 15px;
+  padding: 14px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -243,8 +300,8 @@
 }
 
 .card-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15.5px;
+  font-weight: 700;
   margin: 0 0 8px;
   white-space: nowrap;
   overflow: hidden;
@@ -255,6 +312,8 @@
 .card-meta {
   font-size: 13px;
   color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.35;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -262,8 +321,8 @@
 
 @media (max-width: 1200px) {
   .movie-card {
-    min-width: 180px;
-    flex: 0 0 180px;
+    min-width: 178px;
+    flex: 0 0 178px;
   }
 }
 
@@ -281,9 +340,9 @@
 
 @media (max-width: 768px) {
   .movie-card {
-    min-width: 140px;
-    flex: 0 0 140px;
-    border-radius: 8px;
+    min-width: 144px;
+    flex: 0 0 144px;
+    border-radius: var(--radius-md);
   }
 
   .card-title {
@@ -292,7 +351,7 @@
   }
 
   .card-meta {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
   .movie-card-info {
@@ -307,8 +366,8 @@
 
 @media (max-width: 576px) {
   .movie-card {
-    min-width: 130px;
-    flex: 0 0 130px;
+    min-width: 132px;
+    flex: 0 0 132px;
   }
 
   .card-title {
@@ -334,8 +393,8 @@
 
 @media (max-width: 480px) {
   .movie-card {
-    min-width: 120px;
-    flex: 0 0 120px;
+    min-width: 124px;
+    flex: 0 0 124px;
   }
 }
 

@@ -5,10 +5,46 @@ const handleApiError = (error) => {
   throw new Error(error.response?.data?.error || "Something went wrong");
 };
 
+const hasFileValue = (data = {}) =>
+  Object.values(data).some((value) => value instanceof File);
+
+const appendFormValue = (formData, key, value) => {
+  if (value === undefined || value === null) return;
+
+  if (value instanceof File) {
+    formData.append(key, value);
+    return;
+  }
+
+  if (Array.isArray(value) || typeof value === "object") {
+    formData.append(key, JSON.stringify(value));
+    return;
+  }
+
+  formData.append(key, value);
+};
+
+const buildMoviePayload = (movieData = {}) => {
+  if (!hasFileValue(movieData)) {
+    return movieData;
+  }
+
+  const formData = new FormData();
+  Object.entries(movieData).forEach(([key, value]) => {
+    appendFormValue(formData, key, value);
+  });
+
+  return formData;
+};
+
 const getAllMovies = async () => {
   try {
     const response = await api.get("/api/movies");
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     handleApiError(error);
   }
@@ -17,7 +53,11 @@ const getAllMovies = async () => {
 const getMovieById = async (id) => {
   try {
     const response = await api.get(`/api/movies/${id}`);
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || null,
+    };
   } catch (error) {
     handleApiError(error);
   }
@@ -26,7 +66,11 @@ const getMovieById = async (id) => {
 const getMovieBySlug = async (slug) => {
   try {
     const response = await api.get(`/api/movies/slug/${slug}`);
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || null,
+    };
   } catch (error) {
     handleApiError(error);
   }
@@ -34,8 +78,12 @@ const getMovieBySlug = async (slug) => {
 
 const createMovie = async (movieData) => {
   try {
-    const response = await api.post("/api/movies/add", movieData);
-    return response;
+    const payload = buildMoviePayload(movieData);
+    const config = payload instanceof FormData
+      ? { headers: { "Content-Type": "multipart/form-data" } }
+      : undefined;
+    const response = await api.post("/api/movies/add", payload, config);
+    return response.data;
   } catch (error) {
     handleApiError(error);
   }
@@ -43,8 +91,12 @@ const createMovie = async (movieData) => {
 
 const updateMovie = async (id, movieData) => {
   try {
-    const response = await api.put(`/api/movies/update/${id}`, movieData);
-    return response;
+    const payload = buildMoviePayload(movieData);
+    const config = payload instanceof FormData
+      ? { headers: { "Content-Type": "multipart/form-data" } }
+      : undefined;
+    const response = await api.put(`/api/movies/update/${id}`, payload, config);
+    return response.data;
   } catch (error) {
     handleApiError(error);
   }
@@ -53,7 +105,7 @@ const updateMovie = async (id, movieData) => {
 const deleteMovie = async (id) => {
   try {
     const response = await api.delete(`/api/movies/delete/${id}`);
-    return response;
+    return response.data;
   } catch (error) {
     handleApiError(error);
   }
@@ -61,18 +113,51 @@ const deleteMovie = async (id) => {
 
 const getMoviesByCategory = async (category) => {
   try {
-    const response = await api.get(`/api/movies/category/${category}`);
-    return response;
+    let categoryId = category;
+
+    if (typeof category === "string" && !/^[a-f\d]{24}$/i.test(category)) {
+      const categoriesResponse = await api.get("/api/categories");
+      const categories = categoriesResponse?.data?.data || [];
+      const matched = categories.find((c) => {
+        const normalizedName = (c.name || "").toLowerCase().trim();
+        const normalizedSlug = normalizedName.replace(/\s+/g, "-");
+        return (
+          normalizedName === category.toLowerCase().trim() ||
+          normalizedSlug === category.toLowerCase().trim()
+        );
+      });
+
+      if (matched?._id) {
+        categoryId = matched._id;
+      }
+    }
+
+    const response = await api.get(`/api/movies/category/${categoryId}`);
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     console.error(`Error getting movies by category ${category}:`, error);
     return { data: [] };
   }
 };
 
-const searchMovies = async (keyword) => {
+const searchMovies = async (keywordOrFilters) => {
   try {
-    const response = await api.get(`/api/movies/search?keyword=${keyword}`);
-    return response;
+    const params =
+      typeof keywordOrFilters === "object"
+        ? new URLSearchParams(
+            Object.entries(keywordOrFilters).filter(([, value]) => value),
+          )
+        : new URLSearchParams({ keyword: keywordOrFilters || "" });
+    const response = await api.get(`/api/movies/search?${params.toString()}`);
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     handleApiError(error);
   }
@@ -101,7 +186,7 @@ const incrementMovieViews = async (movieId, userId) => {
     const payload = userId ? { userId } : {};
     const response = await api.put(
       `/api/movies/increment-views/${movieId}`,
-      payload
+      payload,
     );
     return response.data;
   } catch (error) {
@@ -113,13 +198,13 @@ const incrementMovieViews = async (movieId, userId) => {
 const getMoviesByManufacturer = async (manufacturerId) => {
   try {
     const response = await api.get(
-      `/api/movies/by-manufacturer/${manufacturerId}`
+      `/api/movies/by-manufacturer/${manufacturerId}`,
     );
     return response.data;
   } catch (error) {
     console.error(
       `Error getting movies by manufacturer ID ${manufacturerId}:`,
-      error
+      error,
     );
     return { success: false, data: [], count: 0 };
   }
@@ -148,7 +233,11 @@ const getMoviesByDirector = async (directorId) => {
 const getMoviesSortedByViews = async () => {
   try {
     const response = await api.get("/api/movies?sort=views");
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     console.error("Error getting movies sorted by views:", error);
     return { data: [] };
@@ -158,7 +247,11 @@ const getMoviesSortedByViews = async () => {
 const getMoviesSortedByYear = async () => {
   try {
     const response = await api.get("/api/movies?sort=year");
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     console.error("Error getting movies sorted by year:", error);
     return { data: [] };
@@ -168,7 +261,11 @@ const getMoviesSortedByYear = async () => {
 const getMoviesSortedByRating = async () => {
   try {
     const response = await api.get("/api/movies?sort=rating");
-    return response;
+    const payload = response.data || {};
+    return {
+      ...payload,
+      data: payload.data || [],
+    };
   } catch (error) {
     console.error("Error getting movies sorted by rating:", error);
     return { data: [] };
@@ -194,7 +291,7 @@ const getUserMovieRating = async (movieId, userId) => {
     return response.data;
   } catch (error) {
     console.error("Error getting user movie rating:", error);
-    return { success: false, hasRated: false };
+    return { success: false, hasRated: false, data: null };
   }
 };
 

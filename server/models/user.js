@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    googleId: {
+      type: String,
+      default: null,
+      index: true,
+    },
     password: {
       type: String,
       required: true,
@@ -37,6 +42,14 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     emailVerificationTokenExpiry: {
+      type: Date,
+      default: null,
+    },
+    passwordResetToken: {
+      type: String,
+      default: null,
+    },
+    passwordResetTokenExpiry: {
       type: Date,
       default: null,
     },

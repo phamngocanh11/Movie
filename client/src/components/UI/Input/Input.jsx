@@ -44,9 +44,14 @@ const Input = ({
           disabled={disabled}
         />
         {isPasswordInput && (
-          <span className="password-toggle" onClick={togglePasswordVisibility}>
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={togglePasswordVisibility}
+            aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+          >
             {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-          </span>
+          </button>
         )}
       </div>
       {error && <span className="error-message">{error}</span>}

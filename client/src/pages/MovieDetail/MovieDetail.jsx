@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import UserLayout from "../../layouts/UserLayout/UserLayout";
 import MovieBanner from "../../components/MovieBanner/MovieBanner";
 import MovieMainContent from "../../components/MovieMainContent/MovieMainContent";
-import MovieSection from "../../components/MovieSection/MovieSection";
+import MovieCard from "../../components/MovieCard/MovieCard";
 import MovieCommentSection from "../../components/MovieSectionComment/MovieCommentSection";
 import movieService from "../../services/movieService";
 import commentService from "../../services/commentService";
@@ -288,7 +288,19 @@ const MovieDetail = () => {
 
           {relatedMovies.length > 0 && (
             <div className="related-movies">
-              <MovieSection title="Phim Tương Tự" movies={relatedMovies} />
+              <div className="related-movies__header">
+                <h2>Phim Tương Tự</h2>
+              </div>
+              <div className="related-movies-grid">
+                {relatedMovies.map((relatedMovie, index) => (
+                  <MovieCard
+                    key={`related-${
+                      relatedMovie._id || relatedMovie.id || relatedMovie.slug
+                    }-${index}`}
+                    movie={relatedMovie}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>

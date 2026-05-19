@@ -29,6 +29,7 @@ function AdminDirectorDetail() {
     }
     
     fetchDirectorDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchDirectorDetails = async () => {

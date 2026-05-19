@@ -1,22 +1,23 @@
 const Manufacturer = require("../models/manufacturer");
+const { successResponse, errorResponse } = require("../utils/apiResponse");
 
 exports.createManufacturer = async (req, res) => {
   try {
     const { name, logo } = req.body;
     const manu = new Manufacturer({ name, logo });
     await manu.save();
-    res.status(201).json({ success: true, data: manu });
+    return successResponse(res, manu, "Manufacturer created", 201);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
 exports.getAllManufacturer = async (req, res) => {
   try {
     const manus = await Manufacturer.find();
-    res.status(200).json({ success: true, data: manus });
+    return successResponse(res, manus, "Manufacturers fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -24,13 +25,12 @@ exports.getManufacturerById = async (req, res) => {
   try {
     const manu = await Manufacturer.findById(req.params.id);
     if (!manu) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay nha san xuat" });
+      return errorResponse(res, "Khong tim thay nha san xuat", 404);
     }
-    res.status(200).json({ success: true, data: manu });
+
+    return successResponse(res, manu, "Manufacturer fetched");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -40,16 +40,15 @@ exports.updateManufacturer = async (req, res) => {
     const manu = await Manufacturer.findByIdAndUpdate(
       req.params.id,
       { name, logo },
-      { new: true }
+      { new: true },
     );
     if (!manu) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay nha san xuat" });
+      return errorResponse(res, "Khong tim thay nha san xuat", 404);
     }
-    res.status(200).json({ success: true, data: manu });
+
+    return successResponse(res, manu, "Manufacturer updated");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };
 
@@ -57,12 +56,11 @@ exports.deleteManufacturer = async (req, res) => {
   try {
     const manu = await Manufacturer.findByIdAndDelete(req.params.id);
     if (!manu) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Khong tim thay nha san xuat" });
+      return errorResponse(res, "Khong tim thay nha san xuat", 404);
     }
-    res.status(200).json({ success: true, data: {} });
+
+    return successResponse(res, {}, "Manufacturer deleted");
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return errorResponse(res, error.message, 500);
   }
 };

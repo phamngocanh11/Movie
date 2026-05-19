@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import movieService from "../../services/movieService";
 import "./AdvancedSearch.css";
 
 const AdvancedSearch = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
     keyword: "",
     actor: "",
@@ -9,6 +13,9 @@ const AdvancedSearch = () => {
     year: "",
     category: "",
   });
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +25,20 @@ const AdvancedSearch = () => {
     }));
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("Tìm kiếm với params:", searchParams);
-    // TODO: Implement search logic
+
+    try {
+      setIsLoading(true);
+      setHasSearched(true);
+      const response = await movieService.searchMovies(searchParams);
+      setResults(response?.data || []);
+    } catch (error) {
+      toast.error(error.message || "Không thể tìm kiếm phim");
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReset = () => {
@@ -32,6 +49,8 @@ const AdvancedSearch = () => {
       year: "",
       category: "",
     });
+    setResults([]);
+    setHasSearched(false);
   };
 
   return (
@@ -116,6 +135,29 @@ const AdvancedSearch = () => {
           </button>
         </div>
       </form>
+
+      <div className="advanced-search__results">
+        {isLoading ? (
+          <p>Đang tìm kiếm...</p>
+        ) : hasSearched && results.length === 0 ? (
+          <p>Không tìm thấy phim phù hợp.</p>
+        ) : (
+          results.map((movie) => (
+            <button
+              type="button"
+              key={movie._id}
+              className="advanced-search__result"
+              onClick={() => navigate(`/movie/${movie.slug}`)}
+            >
+              {movie.poster_url && (
+                <img src={movie.poster_url} alt={movie.name} loading="lazy" />
+              )}
+              <span>{movie.name}</span>
+              <small>{[movie.year, movie.quality].filter(Boolean).join(" • ")}</small>
+            </button>
+          ))
+        )}
+      </div>
     </div>
   );
 };

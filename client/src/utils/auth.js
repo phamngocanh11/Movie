@@ -3,15 +3,27 @@ const secretKey = process.env.REACT_APP_SECRET_KEY || "secretKeyExample";
 
 const clearInvalidData = () => {
   localStorage.removeItem("userData");
+  localStorage.removeItem("token");
+};
+
+export const getAvatarUrl = (avatar) => {
+  if (!avatar) return "";
+  if (typeof avatar === "string") return avatar;
+  if (typeof avatar === "object") {
+    return avatar.url || avatar.secure_url || avatar.path || "";
+  }
+
+  return "";
 };
 
 export const isAuthenticated = () => {
   try {
     const encryptedData = localStorage.getItem("userData");
-    if (!encryptedData) return false;
+    const token = localStorage.getItem("token");
+    if (!encryptedData || !token) return false;
 
     const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(
-      CryptoJS.enc.Utf8
+      CryptoJS.enc.Utf8,
     );
     if (!decrypted) {
       clearInvalidData();
@@ -38,23 +50,32 @@ export const encryptedUserData = (data) => {
       throw new Error("Invalid user data");
     }
 
+    const payloadUser =
+      data.user && typeof data.user === "object" ? data.user : data;
+    const token = data.token || localStorage.getItem("token");
+
     const userData = {
-      _id: data._id,
-      name: data.name || "User",
-      username: data.username,
-      email: data.email,
-      role: data.role || "user",
-      avatar: data.avatar || "",
-      movieWatched: data.movieWatched || [],
-      favourite: data.favourite || [],
+      _id: payloadUser._id,
+      name: payloadUser.name || "User",
+      username: payloadUser.username,
+      email: payloadUser.email,
+      role: payloadUser.role || "user",
+      avatar: getAvatarUrl(payloadUser.avatar),
+      movieWatched: payloadUser.movieWatched || [],
+      favourite: payloadUser.favourite || [],
+      isEmailVerified: payloadUser.isEmailVerified || false,
     };
 
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(userData),
-      secretKey
+      secretKey,
     ).toString();
 
     localStorage.setItem("userData", encryptedData);
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+
     return true;
   } catch (error) {
     console.error("Error encrypting user data:", error);
@@ -70,7 +91,7 @@ export const decryptedUserData = () => {
 
     const decryptedData = CryptoJS.AES.decrypt(
       encryptedData,
-      secretKey
+      secretKey,
     ).toString(CryptoJS.enc.Utf8);
     if (!decryptedData) {
       clearInvalidData();
@@ -108,10 +129,10 @@ export const logout = () => {
 };
 
 export const getRoleAfterLogin = (response) => {
-  const role = response.role;
+  const role = response?.user?.role || response?.role;
   if (role === "admin") {
     return "/admin/dashboard";
-  } else {
-    return "/";
   }
+
+  return "/";
 };

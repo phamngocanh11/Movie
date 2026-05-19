@@ -7,7 +7,6 @@ import userService from "../../../services/userService";
 import movieService from "../../../services/movieService";
 import { toast } from "sonner";
 import {
-  MdSave,
   MdCancel,
   MdArrowBack,
   MdVerified,
@@ -21,7 +20,9 @@ function AdminEditUser() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -55,10 +56,6 @@ function AdminEditUser() {
     fetchData();
   }, [id]);
 
-  const movieOptions = movies.map((movie) => ({
-    value: movie._id,
-    label: movie.title || "Phim không có tên",
-  }));
 
   const roleOptions = [
     { value: "user", label: "Người dùng" },
@@ -262,7 +259,7 @@ function AdminEditUser() {
     },
   ];
 
-  const userFields = [...personalInfoFields, ...systemAttributeFields];
+
 
   const formatDate = (dateString) => {
     if (!dateString) return "—";

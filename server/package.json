@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js",
+    "test": "node --test",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "import": "node scripts/importData.js",
+    "seed-demo": "node scripts/seedDemoData.js",
     "clear": "node scripts/clearData.js",
     "test-user": "node scripts/createTestUser.js",
     "reset-admin": "node scripts/resetAdmin.js",
@@ -30,5 +31,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

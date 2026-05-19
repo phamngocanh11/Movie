@@ -1,432 +1,331 @@
-# 🎬 Movie Streaming Platform
+# Movie Streaming Platform
 
-A modern online movie streaming platform with Dark/Light Mode support.
+Fullstack movie streaming web application built with React, Node.js, Express and MongoDB. The project includes a user-facing movie website, video playback, favorites, comments, ratings, watch history and an admin dashboard for managing system data.
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Features](#-features)
-- [Technologies](#-technologies)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Git Workflow](#-git-workflow)
-- [Project Structure](#-project-structure)
-- [Scripts](#-scripts)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Main API Endpoints](#main-api-endpoints)
+- [Roadmap](#roadmap)
+- [Author](#author)
 
----
+## Features
 
-## ✨ Features
+### User
 
-### Completed ✅
-- 🎨 **Dark/Light Mode** - Smooth theme switching with CSS Variables
-- 🔍 **Advanced Search** - Search by actor, director, year, and genre
-- 🔔 **Notifications** - Notification system with badge and dropdown
-- 👤 **User Authentication** - Login, register, and profile management
-- 🎥 **Movie Management** - CRUD operations for movies, actors, directors, and categories
-- 💬 **Comments** - Comment and review movies
-- ⭐ **Ratings** - Star rating system
-- 📊 **Admin Dashboard** - Admin panel with detailed statistics
-- 📱 **Responsive Design** - Compatible with all devices
+- Register, login, logout and role-based navigation
+- Google OAuth login
+- Email verification after registration
+- Forgot password with reset link
+- Browse movies by section, category and filters
+- Advanced search by keyword, actor, director, year and genre
+- Movie detail page with metadata, trailer, comments and ratings
+- Video playback with ReactPlayer
+- Continue watching and resume modal
+- Favorite movies list
+- Profile information, avatar upload and password change
+- Dark/Light mode
 
-### In Development 🚧
-- 📝 **User Reviews** - Write detailed reviews
-- 📋 **Playlists** - Create custom playlists
-- 🔔 **Real-time Notifications** - Real-time notification system
-- 🎯 **Recommendations** - Smart movie recommendations
+### Admin
 
----
+- Admin dashboard with overview statistics
+- CRUD movies
+- CRUD users
+- CRUD categories
+- CRUD actors
+- CRUD directors
+- CRUD manufacturers
+- Image upload with Cloudinary
+- Protected admin routes with JWT and role middleware
 
-## 🛠️ Technologies
+### Notes
+
+- Notification UI is currently a frontend mock component. Realtime notifications are planned for future development.
+- Video sources can use direct video URLs or labeled source strings such as `Full|https://example.com/index.m3u8`.
+- Advanced streaming controls such as adaptive quality selection and dynamic subtitles are future improvements.
+
+## Tech Stack
 
 ### Frontend
-- **React 18** - UI Library
-- **React Router v6** - Routing
-- **CSS Variables** - Theming
-- **React Icons** - Icons
-- **Axios** - HTTP Client
+
+- React 18
+- React Router DOM v6
+- Axios
+- React Icons
+- Swiper
+- Sonner
+- ReactPlayer
+- hls.js
+- CSS custom files with CSS Variables
 
 ### Backend
-- **Node.js** - Runtime
-- **Express** - Web Framework
-- **MongoDB** - Database
-- **Mongoose** - ODM
-- **JWT** - Authentication
-- **Bcrypt** - Password Hashing
 
-### Tools
-- **Git** - Version Control
-- **npm** - Package Manager
-- **Nodemon** - Development
+- Node.js
+- Express 5
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- Multer
+- Cloudinary
+- Nodemailer
+- Swagger UI
+- Winston logger
 
----
+### Tooling
 
-## 📦 Installation
+- npm
+- Nodemon
+- Node test runner
+
+## Project Structure
+
+```text
+movie/
+├── client/
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── contexts/
+│       ├── layouts/
+│       ├── pages/
+│       ├── services/
+│       ├── utils/
+│       └── config/
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── scripts/
+│   ├── services/
+│   ├── test/
+│   ├── utils/
+│   └── server.js
+│
+├── PROJECT_OVERVIEW.md
+├── UI_UX_REVIEW.md
+└── README.md
+```
+
+## Installation
 
 ### Requirements
-- Node.js >= 14.x
-- MongoDB >= 4.x
-- npm >= 6.x
 
-### Step 1: Clone Repository
+- Node.js 18 or newer
+- npm
+- MongoDB local or MongoDB Atlas
+
+### Clone repository
+
 ```bash
-git clone https://github.com/username/movie-app.git
-cd movie-app
+git clone https://github.com/your-username/movie.git
+cd movie
 ```
 
-### Step 2: Install Dependencies
+### Install server dependencies
 
-#### Server
 ```bash
 cd server
 npm install
 ```
 
-#### Client
+### Install client dependencies
+
 ```bash
-cd client
+cd ../client
 npm install
 ```
 
-### Step 3: Environment Configuration
+## Environment Variables
 
-Create `server/.env` file:
+Create `server/.env`:
+
 ```env
-DB_URL=mongodb://localhost:27017/movie
 PORT=3001
-JWT_SECRET=your_jwt_secret_key_here
+DB_URL=mongodb://localhost:27017/movie
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:3000
+
+GOOGLE_CLIENT_ID=your_google_oauth_client_id
+
+GMAIL_EMAIL=your_gmail_address
+GMAIL_PASSWORD=your_gmail_app_password
+
+CLOUDINARY_NAME=your_cloudinary_cloud_name
+CLOUDINARY_KEY=your_cloudinary_api_key
+CLOUDINARY_SECRET=your_cloudinary_api_secret
 ```
 
-### Step 4: Import Database
+Create `client/.env.local`:
 
-```bash
-cd server
-npm run import
+```env
+REACT_APP_API_BASE_URL=http://localhost:3001/
+REACT_APP_GOOGLE_CLIENT_ID=your_google_oauth_client_id
 ```
 
-### Step 5: Create Admin Account
+For Google OAuth in development, add `http://localhost:3000` to **Authorized JavaScript origins** in Google Cloud Console. If React starts on another port, add that exact origin.
 
-```bash
-npm run reset-admin
-```
+## Usage
 
-Login credentials:
-- **Username**: admin
-- **Password**: admin123
+### Start backend
 
----
-
-## 🚀 Usage
-
-### Development Mode
-
-#### Terminal 1 - Server
 ```bash
 cd server
 npm run dev
 ```
-Server runs at: http://localhost:3001
 
-#### Terminal 2 - Client
+Backend runs at `http://localhost:3001`.
+
+Swagger docs are available at:
+
+```text
+http://localhost:3001/api-docs
+```
+
+### Start frontend
+
 ```bash
 cd client
 npm start
 ```
-Client runs at: http://localhost:3000
 
-### Production Mode
+Frontend runs at `http://localhost:3000`.
 
-#### Build Client
-```bash
-cd client
-npm run build
-```
+### Seed demo data
 
-#### Start Server
 ```bash
 cd server
-npm start
+npm run seed-demo
 ```
 
----
+### Reset admin account
 
-## 🌳 Git Workflow
-
-### Create New Branch
 ```bash
-git checkout -b feature/feature-name
+cd server
+npm run reset-admin
 ```
 
-### Commit Code
-```bash
-git add .
-git commit -m "feat: Add feature-name"
+Default admin account:
+
+```text
+Username: admin
+Password: admin123
 ```
 
-### Merge to Master
-```bash
-git checkout master
-git merge feature/feature-name
-```
+## Scripts
 
-### Read More
-- 📚 [GIT_WORKFLOW.md](./GIT_WORKFLOW.md) - Complete Git guide
-- ⚡ [QUICK_GIT_REFERENCE.md](./QUICK_GIT_REFERENCE.md) - Quick reference
-- 📊 [GIT_PRACTICE_SUMMARY.md](./GIT_PRACTICE_SUMMARY.md) - Practice summary
-
----
-
-## 📁 Project Structure
-
-```
-movie-app/
-├── client/                 # React Frontend
-│   ├── public/
-│   └── src/
-│       ├── components/     # React Components
-│       │   ├── Admin/
-│       │   ├── AdvancedSearch/    ✨ NEW
-│       │   ├── Notification/      ✨ NEW
-│       │   ├── ThemeToggle/
-│       │   └── ...
-│       ├── contexts/       # React Contexts
-│       │   ├── ThemeContext.jsx
-│       │   └── FavoriteContext.jsx
-│       ├── pages/          # Page Components
-│       ├── services/       # API Services
-│       ├── layouts/        # Layout Components
-│       └── index.css       # Global Styles + CSS Variables
-│
-├── server/                 # Node.js Backend
-│   ├── config/            # Configuration
-│   ├── controllers/       # Route Controllers
-│   ├── models/            # Mongoose Models
-│   ├── routes/            # API Routes
-│   ├── middlewares/       # Middlewares
-│   ├── scripts/           # Utility Scripts
-│   │   ├── importData.js
-│   │   ├── clearData.js
-│   │   ├── resetAdmin.js
-│   │   └── fixAvatars.js
-│   └── server.js          # Entry Point
-│
-├── lythuyet/              # Database JSON Files
-│   ├── movie.actors.json
-│   ├── movie.categories.json
-│   ├── movie.directors.json
-│   ├── movie.movies.json
-│   └── ...
-│
-├── .gitignore
-├── GIT_WORKFLOW.md        # Git Guide
-├── QUICK_GIT_REFERENCE.md # Git Quick Reference
-├── GIT_PRACTICE_SUMMARY.md # Git Practice Summary
-└── README.md              # This file
-```
-
----
-
-## 📜 Scripts
-
-### Server Scripts
+### Server
 
 ```bash
 npm run dev          # Start server with nodemon
-npm start            # Start production server
-npm run import       # Import database from JSON
-npm run clear        # Clear entire database
+npm start            # Start server with node
+npm test             # Run server tests
+npm run import       # Import data
+npm run seed-demo    # Seed demo data
+npm run clear        # Clear data
+npm run test-user    # Create test user
 npm run reset-admin  # Create/reset admin account
 npm run fix-avatars  # Fix avatar URLs
-npm run test-user    # Create test user
 ```
 
-### Client Scripts
+### Client
 
 ```bash
-npm start            # Start development server
-npm run build        # Build for production
-npm test             # Run tests
-npm run eject        # Eject from CRA (not recommended)
+npm start            # Start React development server
+npm run build        # Build production bundle
+npm test             # Run React tests
+npm run eject        # Eject CRA config
 ```
 
----
+## Main API Endpoints
 
-## 🎨 Theme System
+### Auth and Users
 
-The project uses **CSS Variables** for Dark/Light Mode:
-
-### Light Mode
-```css
---bg-primary: #f8fafc;
---text-primary: #0f172a;
---accent-color: #e94560;
-```
-
-### Dark Mode
-```css
---bg-primary: #000000;
---text-primary: #ffffff;
---accent-color: #e94560;
-```
-
-### Usage in Components
-```jsx
-import { useTheme } from '../../contexts/ThemeContext';
-
-const MyComponent = () => {
-  const { theme, toggleTheme, isDark } = useTheme();
-  
-  return (
-    <div>
-      <p>Current theme: {theme}</p>
-      <button onClick={toggleTheme}>Toggle</button>
-    </div>
-  );
-};
-```
-
----
-
-## 🔐 Authentication
-
-### Login
-```javascript
-POST /api/users/login
-{
-  "username": "admin",
-  "password": "admin123"
-}
-```
-
-### Register
-```javascript
-POST /api/users/register
-{
-  "name": "John Doe",
-  "username": "johndoe",
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-### Protected Routes
-```javascript
-// Middleware to check JWT token
-const authMiddleware = require('./middlewares/authMiddleware');
-
-router.get('/profile', authMiddleware, getProfile);
-```
-
----
-
-## 📊 API Endpoints
+- `POST /api/users/register`
+- `POST /api/users/login`
+- `POST /api/users/google-login`
+- `POST /api/users/logout`
+- `POST /api/users/verify-email`
+- `POST /api/users/resend-verification`
+- `GET /api/users/verification-status`
+- `POST /api/users/forgotpassword`
+- `POST /api/users/reset-password`
+- `GET /api/users`
+- `GET /api/users/:id`
+- `PUT /api/users/update/:id`
+- `DELETE /api/users/delete/:id`
 
 ### Movies
-- `GET /api/movies` - Get movie list
-- `GET /api/movies/:id` - Get movie details
-- `POST /api/movies` - Create new movie (Admin)
-- `PUT /api/movies/:id` - Update movie (Admin)
-- `DELETE /api/movies/:id` - Delete movie (Admin)
 
-### Users
-- `POST /api/users/login` - Login
-- `POST /api/users/register` - Register
-- `GET /api/users/profile` - Get profile
-- `PUT /api/users/profile` - Update profile
+- `GET /api/movies`
+- `GET /api/movies/search`
+- `GET /api/movies/top-favorites`
+- `GET /api/movies/slug/:slug`
+- `GET /api/movies/:id`
+- `POST /api/movies/add`
+- `PUT /api/movies/update/:id`
+- `DELETE /api/movies/delete/:id`
+- `PUT /api/movies/increment-views/:movieId`
+- `POST /api/movies/:movieId/rate`
+- `GET /api/movies/:movieId/rating/:userId`
+
+### Favorites and Watch History
+
+- `POST /api/users/add-favorite`
+- `POST /api/users/remove-favorite`
+- `GET /api/users/favorite/:userId/:movieId`
+- `GET /api/users/favorites/:userId`
+- `POST /api/movie-watched`
+- `GET /api/movie-watched/user/:userId/continue-watching`
+- `GET /api/movie-watched/user/:userId/movie/:movieId`
+- `PUT /api/movie-watched/reset/:userId/:movieId`
 
 ### Comments
-- `GET /api/comments/movie/:movieId` - Get movie comments
-- `POST /api/comments` - Create new comment
-- `DELETE /api/comments/:id` - Delete comment
 
----
+- `GET /api/comments/:movieId`
+- `GET /api/comments/user/:userId`
+- `POST /api/comments`
+- `DELETE /api/comments/:id`
 
-## 🤝 Contributing
+### Admin Resources
 
-### Contribution Process
+Categories, actors, directors and manufacturers follow this route style:
 
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'feat: Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Create a Pull Request
+```text
+GET    /api/{resource}
+GET    /api/{resource}/:id
+POST   /api/{resource}/add
+PUT    /api/{resource}/update/:id
+DELETE /api/{resource}/delete/:id
+```
 
-### Commit Convention
+Resources:
 
-Using [Conventional Commits](https://www.conventionalcommits.org/):
+- `categories`
+- `actors`
+- `directors`
+- `manufacturers`
 
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation update
-- `style:` - CSS/styling
-- `refactor:` - Code refactoring
-- `test:` - Add tests
-- `chore:` - Other tasks
+## Roadmap
 
----
+- Realtime comments and notifications with Socket.io
+- Adaptive streaming quality controls
+- Dynamic subtitles
+- Refresh Token with HttpOnly Cookie
+- Recommendation system
+- Analytics dashboard
+- CI/CD with GitHub Actions
+- SEO improvement with Next.js
 
-## 📝 License
+## Author
 
-MIT License - See [LICENSE](./LICENSE) file for details.
-
----
-
-## 👥 Authors
-
-- **Pham Ngoc Anh** - [phamngocanhtb03@gmail.com](mailto:phamngocanhtb03@gmail.com)
-
----
-
-## 🙏 Acknowledgments
-
-- React Team
-- Express Team
-- MongoDB Team
-- All contributors
-
----
-
-## 📞 Support
-
-If you have any issues:
-1. Read [GIT_WORKFLOW.md](./GIT_WORKFLOW.md)
-2. Check [Issues](https://github.com/username/movie-app/issues)
-3. Create a new issue
-4. Contact: phamngocanhtb03@gmail.com
-
----
-
-## 🎯 Roadmap
-
-### Phase 1 - Core Features ✅
-- [x] Authentication
-- [x] Movie CRUD
-- [x] Comments & Ratings
-- [x] Dark/Light Mode
-- [x] Admin Dashboard
-
-### Phase 2 - Advanced Features 🚧
-- [x] Advanced Search
-- [x] Notifications
-- [ ] User Reviews
-- [ ] Playlists
-- [ ] Watch History
-
-### Phase 3 - Future Features 📅
-- [ ] Real-time Chat
-- [ ] AI Recommendations
-- [ ] Mobile App
-- [ ] Video Streaming
-- [ ] Subtitles Support
-
----
-
-## 📈 Stats
-
-- **Total Commits**: 8
-- **Total Files**: 240+
-- **Lines of Code**: 62,000+
-- **Components**: 50+
-- **API Endpoints**: 30+
-
----
-
-**Made with ❤️ by Pham Ngoc Anh**
+Phạm Ngọc Anh 

@@ -48,6 +48,30 @@
   margin-bottom: 30px;
 }
 
+[data-theme="light"] .mcs-form,
+[data-theme="light"] .mcs-comment,
+[data-theme="light"] .mcs-empty {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .mcs-textarea {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #111827;
+}
+
+[data-theme="light"] .mcs-textarea:focus {
+  border-color: rgba(233, 69, 96, 0.55);
+  box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.12);
+}
+
+[data-theme="light"] .mcs-star,
+[data-theme="light"] .mcs-comment-stars svg {
+  color: rgba(15, 23, 42, 0.18);
+}
+
 .mcs-rating {
   margin-bottom: 20px;
   display: flex;
