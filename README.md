@@ -111,8 +111,6 @@ movie/
 │   ├── utils/
 │   └── server.js
 │
-├── PROJECT_OVERVIEW.md
-├── UI_UX_REVIEW.md
 └── README.md
 ```
 
